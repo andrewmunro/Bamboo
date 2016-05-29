@@ -1,8 +1,8 @@
 import io from 'socket.io-client';
 
-export class SocketConnection {
+class SocketConnection {
     constructor() {
-        this.socket = io('https://localhost:3000');
+        this.socket = io('http://localhost:3000');
 
         this.socket.on('connect', function() {
             console.log('connected!');
@@ -10,6 +10,7 @@ export class SocketConnection {
     }
 
     register(actionContext) {
+        console.log("Registered!");
         this.context = actionContext;
 
         this.socket.on('dispatch', this.handleDispatch.bind(this));
@@ -17,6 +18,8 @@ export class SocketConnection {
     }
 
     handleDispatch({event, payload}) {
+        console.log(`Dispatching ${event} with payload: ${payload}`);
+
         this.context.dispatch(event, payload);
     }
 
@@ -39,6 +42,7 @@ export default {
                 context.emit = connection.emit.bind(connection);
             },
             plugActionContext(context) {
+                console.log("Plugging action context");
                 connection.register(context);
                 context.emit = connection.emit.bind(connection);
             },

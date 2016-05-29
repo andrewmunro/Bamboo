@@ -8,10 +8,12 @@ const app = new Fluxible({
     stores: [
         require('stores/PageStore'),
         require('stores/PlayerStore')
-    ],
-    plugins: [
-        require('plugins/SocketPlugin')
     ]
 });
+
+//If we are running on the server
+if(typeof(window) !== "undefined") {
+    app.plug(require('plugins/SocketPlugin'));
+}
 
 export default app;

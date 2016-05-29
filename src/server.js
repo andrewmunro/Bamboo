@@ -15,19 +15,21 @@ import app from 'app';
 import navigateAction from 'actions/navigateAction';
 import HtmlComponent from 'components/Html';
 
-const server = new Koa();
+const koa = new Koa();
+const server = require('http').createServer(koa.callback());
+const io = require('socket.io')(server);
 
 if(process.env.sourceMap) {
     require('source-map-support').install();
 }
 
 //TODO Find better alternative for Koa@2
-server.use(serve('./public'));
-server.use(serve('./build'));
-server.use(bodyParser());
-server.use(logger());
+koa.use(serve('./public'));
+koa.use(serve('./build'));
+koa.use(bodyParser());
+koa.use(logger());
 
-server.use(async (ctx, next) => {
+koa.use(async (ctx, next) => {
     return new Promise((resolve, reject) => {
         match({routes: app.getComponent(), location: ctx.url}, (error, redirectLocation, renderProps) => {
             if (error) {
@@ -68,5 +70,17 @@ server.use(async (ctx, next) => {
 const port = process.env.PORT || 3000;
 server.listen(port);
 console.log(`Server accepting connections on port ${port}`);
+
+io.on('connection', function(socket){
+    console.log('connected: ' + socket.id);
+
+    socket.on('event', function(data) {
+        console.log(data);
+    });
+
+    socket.on('disconnect', function(){
+        console.log("disconnected: " + socket.id);
+    });
+});
 
 export default server;

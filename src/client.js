@@ -20,7 +20,12 @@ function RenderApp(context) {
 
 app.rehydrate(dehydratedState, (err, context) => {
     if (err) throw err;
-
     window.context = context;
+
+    //Lazy load the context
+    context.getActionContext();
+    context.getStoreContext();
+    context.getComponentContext();
+
     RenderApp(context);
 });

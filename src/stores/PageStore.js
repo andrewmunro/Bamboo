@@ -13,7 +13,7 @@ export default class PageStore extends BaseStore {
         this.currentRoute = null;
     }
 
-    handleNavigate() {
+    handleNavigate(route) {
         if (this.currentRoute && route.path === this.currentRoute.path) {
             return;
         }
