@@ -3,17 +3,34 @@ import 'babel-polyfill';
 import Fluxible from 'fluxible';
 import Router from 'components/Router';
 
-const app = new Fluxible({
-    component: Router,
-    stores: [
-        require('stores/PageStore'),
-        require('stores/PlayerStore')
-    ]
-});
+import {clientOnly, serverOnly} from 'utils/Decorators';
 
-//If we are running on the server
-if(typeof(window) !== "undefined") {
-    app.plug(require('plugins/SocketPlugin'));
+class AppFactory {
+    constructor() {
+        this.app = new Fluxible({
+            component: Router,
+            stores: [
+                require('stores/PageStore'),
+                require('stores/PlayerStore')
+            ]
+        });
+
+        this.initClientApp();
+        this.initServerApp();
+    }
+
+    @clientOnly
+    initClientApp() {
+        console.log('Registering client app');
+        this.app.plug(require('plugins/SocketPlugin'));
+    }
+
+    @serverOnly
+    initServerApp() {
+        console.log('Registering server app');
+    }
 }
 
-export default app;
+const factory = new AppFactory();
+
+export default factory.app;

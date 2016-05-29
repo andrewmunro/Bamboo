@@ -42,7 +42,6 @@ export default {
                 context.emit = connection.emit.bind(connection);
             },
             plugActionContext(context) {
-                console.log("Plugging action context");
                 connection.register(context);
                 context.emit = connection.emit.bind(connection);
             },
