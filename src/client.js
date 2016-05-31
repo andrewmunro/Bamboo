@@ -5,6 +5,8 @@ import app from 'app';
 import { Router, browserHistory } from 'react-router';
 import FluxibleComponent from 'fluxible-addons-react/FluxibleComponent';
 
+import Game from 'game/Game';
+
 const dehydratedState = window.App; // Sent from the server
 
 function RenderApp(context) {
@@ -28,4 +30,9 @@ app.rehydrate(dehydratedState, (err, context) => {
     context.getComponentContext();
 
     RenderApp(context);
+
+    window.game = new Game(context, {
+        width: 1024,
+        height: 768
+    });
 });

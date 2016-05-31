@@ -10,6 +10,9 @@ module.exports = {
         path: path.join(__dirname, '../build'),
         filename: 'client.js'
     },
+    node: {
+        fs: 'empty'
+    },
     module: {
         preLoaders: [],
         noParse: [/config\.js/],
@@ -17,12 +20,15 @@ module.exports = {
             {
                 test: /\.js?$/,
                 exclude: /node_modules/,
-                loader: 'babel'
+                loader: 'babel',
+                query: {
+                    // https://github.com/babel/babel-loader#options
+                    cacheDirectory: true
+                }
             },
             {
                 test: /\.json?$/,
-                exclude: /node_modules/,
-                loader: 'json'
+                loader: 'json',
             }
         ]
     }
