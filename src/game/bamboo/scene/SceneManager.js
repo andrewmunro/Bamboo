@@ -37,7 +37,7 @@ export default class SceneManager extends DisplayObject {
 
         if(this.currentScene) {
             this.currentScene.enabled = false;
-            this.removeChild(this.currentScene.cameraManager.displayObject.displayObject);
+            this.removeChild(this.currentScene.cameraManager.displayObject);
         }
 
         this.currentScene = scene;
@@ -45,7 +45,7 @@ export default class SceneManager extends DisplayObject {
         let onSceneLoaded = () => {
             this.currentScene.enabled = true;
             this.currentScene.start();
-            this.addChild(this.currentScene.cameraManager.displayObject.displayObject);
+            this.addChild(this.currentScene.cameraManager.displayObject);
         }
 
         if(this.currentScene.loader.loaded) {
