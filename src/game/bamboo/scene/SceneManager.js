@@ -3,12 +3,8 @@ import {List} from 'immutable';
 import DisplayObject from '../component/DisplayObject';
 
 export default class SceneManager extends DisplayObject {
-    constructor(gameInstance) {
-        if(!gameInstance || !gameInstance.stage) {
-            throw new Error('SceneManager expected to be constructed with the gameInstance');
-        }
-
-        super('SceneManager', gameInstance);
+    constructor() {
+        super('SceneManager');
         this.scenes = new List();
     }
 
@@ -40,16 +36,16 @@ export default class SceneManager extends DisplayObject {
         }
 
         if(this.currentScene) {
-            this.currentScene.active = false;
-            this.removeChild(this.currentScene.displayObject.displayObject);
+            this.currentScene.enabled = false;
+            this.removeChild(this.currentScene.cameraManager.displayObject.displayObject);
         }
 
         this.currentScene = scene;
 
         let onSceneLoaded = () => {
-            this.currentScene.active = true;
+            this.currentScene.enabled = true;
             this.currentScene.start();
-            this.addChild(this.currentScene.displayObject.displayObject);
+            this.addChild(this.currentScene.cameraManager.displayObject.displayObject);
         }
 
         if(this.currentScene.loader.loaded) {

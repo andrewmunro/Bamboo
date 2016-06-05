@@ -1,7 +1,8 @@
-import {Matrix, Rectangle, RenderTexture, Sprite, Point} from 'pixi.js';
+import {Matrix, Rectangle, RenderTexture, Sprite} from 'pixi.js';
 
 import Bamboo from '../../Bamboo';
 import DisplayObject from '../../component/DisplayObject';
+import Vector2 from '../../math/Vector2';
 
 export default class Camera extends DisplayObject {
     static componentName = 'Camera'
@@ -9,26 +10,24 @@ export default class Camera extends DisplayObject {
 
 	constructor(id, x, y, width, height, renderWidth, renderHeight) {
 		super(id || 'Camera');
-        let renderer = Bamboo.instance.renderer;
+        this.enabled = false;
 
-		this.x = x;
-		this.y = y;
-		this.width = width;
-		this.height = height;
+        let renderer = Bamboo.instance.renderer;
 		this.renderWidth = renderWidth || renderer.width;
 		this.renderHeight = renderHeight || renderer.height;
 
-		this.boundingBox = new Rectangle(0, 0, 1, 1);
-
 		this.renderTexture = new RenderTexture(renderer, this.renderWidth, this.renderHeight);
 		this.renderSprite = new Sprite(this.renderTexture);
+        this.renderSprite.x = x;
+        this.renderSprite.y = y;
 		this.renderSprite.width = width;
 		this.renderSprite.height = height;
 
-		this.targetPosition =  new Point(width * 0.5, height * 0.5);
+		this.targetPosition = new Vector2(width * 0.5, height * 0.5);
 		this.targetRotation = 0;
 		this.targetZoom = 1;
 
+		this.boundingBox = new Rectangle(0, 0, 1, 1);
 		this.matrix = new Matrix();
 
 		this.addChild(this.renderSprite);
@@ -39,19 +38,17 @@ export default class Camera extends DisplayObject {
 		this.matrix.translate(-this.targetPosition.x, -this.targetPosition.y);
 
 		this.matrix.scale(this.targetZoom, this.targetZoom);
-		this.matrix.translate(this.width / 2, this.height / 2);
+		this.matrix.translate(this.renderSprite.width / 2, this.renderSprite.height / 2);
 
 		this.updateBoundingBox();
 
 		this.scene.prerender(this);
 		this.renderTexture.render(this.scene.displayObject.displayObject, this.matrix, true);
-
-		super.update(dt);
 	}
 
 	updateBoundingBox(){
-        let topLeft = this.matrix.applyInverse(new Point(0, 0)),
-            bottomRight = this.matrix.applyInverse(new Point(this.renderWidth, this.renderHeight));
+        let topLeft = this.matrix.applyInverse(new Vector2()),
+            bottomRight = this.matrix.applyInverse(new Vector2(this.renderWidth, this.renderHeight));
 
         this.boundingBox.x = topLeft.x;
         this.boundingBox.y = topLeft.y;

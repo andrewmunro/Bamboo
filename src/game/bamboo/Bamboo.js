@@ -15,7 +15,7 @@ export default class Bamboo {
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
         this.ticker = new Pixi.ticker.Ticker();
         this.stage = new Container();
-        this.sceneManager = new SceneManager(this);
+        this.sceneManager = new SceneManager();
 
         this.stage.addChild(this.sceneManager.displayObject);
         this.ticker.add(this.update, this);

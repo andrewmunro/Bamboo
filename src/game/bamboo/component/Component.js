@@ -1,6 +1,6 @@
 export default class Component {
     constructor() {
-        this.gameObject = null;
+        this.enabled = true;
     }
 
     //On added to GameObject

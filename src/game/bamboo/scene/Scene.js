@@ -6,13 +6,13 @@ import DisplayObject from '../component/DisplayObject';
 import CameraManager from './camera/CameraManager';
 
 export default class Scene extends GameObject {
-    constructor(id = "Scene", parent = null) {
+    constructor(id = "Scene", cameras = null) {
         super(id, parent);
 
         this.loader = new loaders.Loader();
-        this.cameraManager = new CameraManager(this);
-        super.addComponent(this.displayObject = new DisplayObject());
+        this.cameraManager = new CameraManager(this, cameras);
 
+        this.addComponent(this.displayObject = new DisplayObject(id));
         this.enabled = false;
     }
 

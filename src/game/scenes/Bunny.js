@@ -1,12 +1,12 @@
 import {GameObject, DisplayObject, Sprite} from 'game/bamboo/Bamboo';
 
 export default class Bunny extends GameObject {
-    constructor(parent) {
+    constructor(parent, pos) {
         super('bunny', parent);
 
-        this.addComponent(new DisplayObject());
+        this.addComponent(new DisplayObject('BunnyContainer'));
         this.addComponent(this.sprite = Sprite.fromImage('http://www.goodboydigital.com/pixijs/examples/1/bunny.png'));
-        this.transform.position.x = this.transform.position.y = 200;
+        this.transform.position = pos;
     }
 
     update(dt) {

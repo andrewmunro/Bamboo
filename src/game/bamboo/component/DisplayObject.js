@@ -6,17 +6,18 @@ export default class DisplayObject extends Component {
     static componentName = 'DisplayObject'
     static unique = true
 
-    constructor() {
+    constructor(id = 'displayObject') {
         super();
         this.displayObject = new Container();
+        this.displayObject.id = id;
     }
 
-    addChild(pixiDisplayObject) {
-        this.displayObject.addChild(pixiDisplayObject);
+    addChild(displayObject) {
+        this.displayObject.addChild(displayObject.displayObject || displayObject);
     }
 
     removeChild(pixiDisplayObject) {
-        this.displayObject.removeChild(pixiDisplayObject);
+        this.displayObject.removeChild(displayObject.displayObject || displayObject);
     }
 
     update(dt) {

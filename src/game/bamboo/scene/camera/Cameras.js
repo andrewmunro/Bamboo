@@ -19,8 +19,8 @@ export function split(width, height, columns, rows) {
     let cameraWidth = width / columns,
         cameraHeight = height / rows;
 
-    for(var i = 0; i < columns - 1; i++) {
-        for(var j = 0; j < rows - 1; j++) {
+    for(var i = 0; i < columns; i++) {
+        for(var j = 0; j < rows; j++) {
             cameras.push(new Camera(`Camera[${i},${j}]`, cameraWidth * i, cameraHeight * j, cameraWidth, cameraHeight));
         }
     }

@@ -36,8 +36,10 @@ export default class GameObject {
             this.components = this.components.push(comp);
             comp.start();
 
-            //Add to parent displayobject
+            // Add to parent displayobject
             if(this.parent && isType(component, DisplayObject) && this.parent.getComponent(DisplayObject)) {
+                // Update displayobject from transform before adding
+                component.update();
                 this.parent.getComponent(DisplayObject).addChild(component.displayObject);
             }
         }
@@ -86,7 +88,11 @@ export default class GameObject {
     onUpdate(dt) {
         if(this.enabled) {
             this.update(dt);
-            this.components.forEach(c => c.update(dt));
+            this.components.forEach(c => {
+                if(c.enabled) {
+                    c.update(dt)
+                }
+            });
         }
     }
 

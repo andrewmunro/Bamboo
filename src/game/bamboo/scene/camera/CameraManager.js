@@ -1,6 +1,7 @@
-import {Loader} from 'pixi.js';
+import {Container} from 'pixi.js';
 
 import GameObject from '../../entity/GameObject';
+import DisplayObject from '../../component/DisplayObject';
 import Camera from './Camera';
 import {fullscreen} from './Cameras';
 import {isType} from '../../helpers/TypeHelpers';
@@ -8,6 +9,8 @@ import {isType} from '../../helpers/TypeHelpers';
 export default class CameraManager extends GameObject {
     constructor(scene, cameras) {
         super('CameraManager', scene);
+
+        this.addComponent(this.displayObject = new DisplayObject('CameraManager'));
 
         if(!cameras) {
             cameras = fullscreen();
@@ -21,11 +24,15 @@ export default class CameraManager extends GameObject {
             throw new Error('Expected addCamera to be called with a Camera');
         }
 
+        camera.enabled = true;
         this.addComponent(camera);
+        this.displayObject.addChild(camera);
     }
 
     removeCamera(camera) {
-        this.removeComponent(camera);
+        camera.enabled = false;
+        this.addComponent(camera);
+        this.displayObject.removeChild(camera);
     }
 
     get cameras() {
@@ -33,6 +40,6 @@ export default class CameraManager extends GameObject {
     }
 
     get activeCameras() {
-        return cameras.filter(c => c.active);
+        return cameras.filter(c => c.enabled);
     }
 }
