@@ -31,7 +31,7 @@ export default class CameraManager extends GameObject {
 
     removeCamera(camera) {
         camera.enabled = false;
-        this.addComponent(camera);
+        this.removeComponent(camera);
         this.displayObject.removeChild(camera);
     }
 
