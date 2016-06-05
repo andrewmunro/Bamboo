@@ -40,12 +40,14 @@ export default class SceneManager extends DisplayObject {
         }
 
         if(this.currentScene) {
+            this.currentScene.active = false;
             this.removeChild(this.currentScene.displayObject.displayObject);
         }
 
         this.currentScene = scene;
 
         let onSceneLoaded = () => {
+            this.currentScene.active = true;
             this.currentScene.start();
             this.addChild(this.currentScene.displayObject.displayObject);
         }

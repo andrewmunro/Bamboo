@@ -11,7 +11,5 @@ export default class Bunny extends GameObject {
 
     update(dt) {
         this.transform.rotation += 0.05;
-
-        super.update(dt);
     }
 }

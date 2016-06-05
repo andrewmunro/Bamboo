@@ -16,7 +16,7 @@ export default class GameObject {
         this.addComponent(this.transform);
 
         this.enabled = true;
-        Bamboo.instance.ticker.add(this.update, this);
+        Bamboo.instance.ticker.add(this.onUpdate, this);
     }
 
     addComponent(component) {
@@ -80,7 +80,12 @@ export default class GameObject {
     }
 
     update(dt) {
+
+    }
+
+    onUpdate(dt) {
         if(this.enabled) {
+            this.update(dt);
             this.components.forEach(c => c.update(dt));
         }
     }

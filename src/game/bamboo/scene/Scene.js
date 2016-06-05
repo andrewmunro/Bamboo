@@ -16,10 +16,6 @@ export default class Scene extends GameObject {
         this.enabled = false;
     }
 
-    start() {
-        this.enabled = true;
-    }
-
     prerender(camera) {
 
     }

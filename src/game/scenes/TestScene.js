@@ -9,8 +9,6 @@ export default class TestScene extends Scene {
     }
 
     start() {
-        super.start();
-
         let bunny = new Bunny(this);
     }
 }
