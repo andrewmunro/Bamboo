@@ -16,7 +16,10 @@ export default class GameObject {
         this.addComponent(this.transform);
 
         this.enabled = true;
-        Bamboo.instance.ticker.add(this.onUpdate, this);
+
+        Bamboo.instance.preUpdate.add(this.onPreUpdate, this);
+        Bamboo.instance.update.add(this.onUpdate, this);
+        Bamboo.instance.postUpdate.add(this.onPostUpdate, this);
     }
 
     addComponent(component) {
@@ -81,8 +84,19 @@ export default class GameObject {
         }
     }
 
-    update(dt) {
+    preUpdate(dt) { }
+    update(dt) { }
+    postUpdate(dt) { }
 
+    onPreUpdate(dt) {
+        if(this.enabled) {
+            this.preUpdate(dt);
+            this.components.forEach(c => {
+                if(c.enabled) {
+                    c.preUpdate(dt)
+                }
+            });
+        }
     }
 
     onUpdate(dt) {
@@ -91,6 +105,17 @@ export default class GameObject {
             this.components.forEach(c => {
                 if(c.enabled) {
                     c.update(dt)
+                }
+            });
+        }
+    }
+
+    onPostUpdate(dt) {
+        if(this.enabled) {
+            this.postUpdate(dt);
+            this.components.forEach(c => {
+                if(c.enabled) {
+                    c.postUpdate(dt)
                 }
             });
         }

@@ -67,10 +67,6 @@ koa.use(async (ctx, next) => {
     });
 });
 
-const port = process.env.PORT || 3000;
-server.listen(port);
-console.log(`Server accepting connections on port ${port}`);
-
 io.on('connection', function(socket){
     console.log('connected: ' + socket.id);
 
@@ -82,5 +78,9 @@ io.on('connection', function(socket){
         console.log("disconnected: " + socket.id);
     });
 });
+
+const port = process.env.PORT || 3000;
+server.listen(port);
+console.log(`Server accepting connections on port ${port}`);
 
 export default server;

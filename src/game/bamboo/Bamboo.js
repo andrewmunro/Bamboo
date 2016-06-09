@@ -1,6 +1,7 @@
 import Pixi, {Container} from 'pixi.js';
 
 import SceneManager from './scene/SceneManager';
+import input from './input/Input';
 
 let instance = null;
 
@@ -13,16 +14,32 @@ export default class Bamboo {
         this.height = height || 768
 
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
-        this.ticker = new Pixi.ticker.Ticker();
         this.stage = new Container();
         this.sceneManager = new SceneManager();
 
         this.stage.addChild(this.sceneManager.displayObject);
-        this.ticker.add(this.update, this);
+
+        this.preUpdate = new Pixi.ticker.Ticker();
+        this.update = new Pixi.ticker.Ticker();
+        this.postUpdate = new Pixi.ticker.Ticker();
+
+        this.ticker = new Pixi.ticker.Ticker();
         this.ticker.start();
+
+        this.ticker.add(this.onTick, this);
+        this.postUpdate.add(this.onPostUpdate, this);
     }
 
-    update(dt) {
+    onTick(dt) {
+        // Update child tickers manually
+        let currentTime = this.ticker.elapsedMS + this.ticker.lastTime
+        this.preUpdate.update(currentTime);
+        this.update.update(currentTime);
+        this.postUpdate.update(currentTime);
+    }
+
+    onPostUpdate(dt) {
+        input.postUpdate(dt);
         this.renderer.render(this.stage);
     }
 

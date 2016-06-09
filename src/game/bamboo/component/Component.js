@@ -8,10 +8,9 @@ export default class Component {
 
     }
 
-    // On update
-    update(dt) {
-
-    }
+    preUpdate(dt) { }
+    update(dt) { }
+    postUpdate(dt) { }
 
     get transform() {
         return this.gameObject ? this.gameObject.transform : null;
