@@ -14,7 +14,6 @@ export default class Bamboo {
         this.height = height || 768
 
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
-
         this.stage = new Container();
         this.sceneManager = new SceneManager();
 
