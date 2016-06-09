@@ -19,6 +19,12 @@ const koa = new Koa();
 const server = require('http').createServer(koa.callback());
 const io = require('socket.io')(server);
 
+import Game from 'game/Game';
+let game = new Game(app.createContext(), {
+    width: 1024,
+    height: 768
+});
+
 if(process.env.sourceMap) {
     require('source-map-support').install();
 }

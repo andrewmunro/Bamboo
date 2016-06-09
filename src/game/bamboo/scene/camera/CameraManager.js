@@ -1,4 +1,4 @@
-import {Container} from 'pixi.js';
+import {Container} from 'pixi';
 
 import GameObject from '../../entity/GameObject';
 import DisplayObject from '../../component/DisplayObject';

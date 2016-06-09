@@ -1,4 +1,4 @@
-import Pixi, {Container} from 'pixi.js';
+import Pixi, {Container} from 'pixi';
 
 import SceneManager from './scene/SceneManager';
 import input from './input/Input';
@@ -14,6 +14,7 @@ export default class Bamboo {
         this.height = height || 768
 
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
+
         this.stage = new Container();
         this.sceneManager = new SceneManager();
 

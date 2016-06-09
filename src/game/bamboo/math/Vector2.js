@@ -1,4 +1,4 @@
-import {Point} from 'pixi.js';
+import {Point} from 'pixi';
 
 export default class Vector2 extends Point {
     static zero() {

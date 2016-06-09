@@ -14,7 +14,10 @@ fs.readdirSync('node_modules')
 module.exports = {
     entry: './src/server.js',
     resolve: {
-        root: [path.join(__dirname, '../src')]
+        root: [path.join(__dirname, '../src')],
+        alias: {
+            pixi: 'utils/PixiLoader'
+        }
     },
     target: 'node',
     output: {

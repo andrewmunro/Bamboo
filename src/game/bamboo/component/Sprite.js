@@ -1,4 +1,4 @@
-import Pixi, {Point} from 'pixi.js';
+import Pixi, {Point} from 'pixi';
 
 import Component from './Component';
 

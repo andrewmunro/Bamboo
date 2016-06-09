@@ -1,3 +1,5 @@
+import platformHelper from 'helpers/PlatformHelper';
+
 export function clientOnly(target, key, descriptor) {
     let fn = descriptor.value;
 
@@ -8,7 +10,7 @@ export function clientOnly(target, key, descriptor) {
     return {
         configurable: true,
         get() {
-            return typeof(window) !== "undefined" ? fn : function() {};
+            return platformHelper.isClient() ? fn : function() {};
         }
     };
 };
@@ -23,7 +25,7 @@ export function serverOnly(target, key, descriptor) {
     return {
         configurable: true,
         get() {
-            return typeof(window) === "undefined" ? fn : function() {};
+            return platformHelper.isServer() ? fn : function() {};
         }
     };
 };

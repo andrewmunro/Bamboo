@@ -1,4 +1,4 @@
-import {Matrix, Rectangle, RenderTexture, Sprite} from 'pixi.js';
+import {Matrix, Rectangle, RenderTexture, Sprite} from 'pixi';
 
 import Bamboo from '../../Bamboo';
 import DisplayObject from '../../component/DisplayObject';

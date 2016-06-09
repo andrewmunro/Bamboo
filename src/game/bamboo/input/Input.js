@@ -1,7 +1,11 @@
+import platformHelper from 'helpers/PlatformHelper';
+
 export class Input {
     constructor() {
-        window.addEventListener('keydown', event => this.onKeyDown(event));
-        window.addEventListener('keyup', event => this.onKeyUp(event));
+        if(platformHelper.isClient()) {
+            window.addEventListener('keydown', event => this.onKeyDown(event));
+            window.addEventListener('keyup', event => this.onKeyUp(event));
+        }
 
         this.keysDown = {};
     }

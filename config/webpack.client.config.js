@@ -5,6 +5,9 @@ module.exports = {
     resolve: {
         root: [path.join(__dirname, '../src')],
         extensions: ['', '.js'],
+        alias: {
+            pixi: 'utils/PixiLoader'
+        }
     },
     output: {
         path: path.join(__dirname, '../build'),
