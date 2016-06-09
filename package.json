@@ -8,7 +8,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "node_modules/.bin/gulp app:start",
-    "dev": "node_modules/.bin/gulp app:start --sourceMap --watch"
+    "dev": "node_modules/.bin/gulp app:start --sourceMap --watch --livereload"
   },
   "dependencies": {
     "async": "^2.0.0-rc.3",
@@ -55,6 +55,7 @@
     "eslint-plugin-react": "^5.0.1",
     "eslint-plugin-require-jsdoc": "^1.0.4",
     "exports-loader": "^0.6.3",
+    "gulp-livereload": "^3.8.1",
     "json-loader": "^0.5.4",
     "node-notifier": "^4.6.0",
     "source-map-support": "^0.4.0",

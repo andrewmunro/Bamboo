@@ -2,6 +2,7 @@
 var gutil = require('gulp-util'),
     spawn = require('child_process').spawn,
     notify = require('./notifier'),
+    livereload = require('gulp-livereload'),
     serverProcess;
 
 module.exports = function(gulp) {
@@ -15,17 +16,30 @@ module.exports = function(gulp) {
     gulp.task('app:start', 'Start the app', ['build:client', 'build:server'], function() {
         startApp();
 
+        if(gutil.env.livereload) {
+            livereload.listen();
+        }
+
         if(gutil.env.watch) {
-            gulp.watch(['./build/server.js', './build/client.js'], function() {
+            gulp.watch(['./build/server.js', './build/client.js'], function(event) {
                 startApp();
+                
+                if(gutil.env.livereload) {
+                    setTimeout(function() {
+                        livereload.changed(event.path);
+                    }, 2000);
+                }
             });
         }
+
+
 
         notify.info('App started!', 'PID: ' + serverProcess.pid);
     }, {
         aliases: ['a:s', 'start', 'appstart'],
         options: {
-            '--watch': 'Watch for changes and hotreload'
+            '--watch': 'Watch for changes and hotreload',
+            '--livereload': 'Enable livereload'
         }
     });
 
