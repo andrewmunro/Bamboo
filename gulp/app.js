@@ -6,11 +6,18 @@ var gutil = require('gulp-util'),
     serverProcess;
 
 module.exports = function(gulp) {
-    function startApp() {
+    function startApp(event) {
         if (serverProcess) serverProcess.kill();
         gutil.log(gutil.colors.green('Starting app...'));
         process.env.sourceMap = gutil.env.sourceMap;
-        serverProcess = spawn('node', ['build/server'], {stdio: 'inherit', env: process.env});
+        serverProcess = spawn('node', ['build/server'], {stdio: ['pipe', 1, 2, 'ipc'], env: process.env});
+        serverProcess.on('message', function(message) {
+            if(message === 'ready') {
+                if(gutil.env.livereload) {
+                    livereload.changed(event ? event.path : '');
+                }
+            }
+        });
     }
 
     gulp.task('app:start', 'Start the app', ['build:client', 'build:server'], function() {
@@ -22,13 +29,7 @@ module.exports = function(gulp) {
 
         if(gutil.env.watch) {
             gulp.watch(['./build/server.js', './build/client.js'], function(event) {
-                startApp();
-                
-                if(gutil.env.livereload) {
-                    setTimeout(function() {
-                        livereload.changed(event.path);
-                    }, 2000);
-                }
+                startApp(event);
             });
         }
 

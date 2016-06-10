@@ -56,6 +56,22 @@ export default class Sprite extends Component {
         return point;
     }
 
+    get width() {
+        return this.sprite.width;
+    }
+    set width(value) {
+        this.sprite.width = value;
+        return value;
+    }
+
+    get height() {
+        return this.sprite.height;
+    }
+    set height(value) {
+        this.sprite.height = value;
+        return value;
+    }
+
     get texture() {
         return this.texture;
     }

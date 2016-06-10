@@ -89,4 +89,8 @@ const port = process.env.PORT || 3000;
 server.listen(port);
 console.log(`Server accepting connections on port ${port}`);
 
+if(process.send) {
+    process.send('ready');
+}
+
 export default server;
