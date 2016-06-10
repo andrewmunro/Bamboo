@@ -19,7 +19,9 @@ export default class Cat extends GameObject {
     }
 
     update(dt) {
-        //this.transform.rotation += 0.05;
+        if(this.spinning) {
+            this.transform.rotation += 0.1;
+        }
 
         if(Input.getKey(Key.W)) {
             this.transform.position.y -= 5;
@@ -35,6 +37,17 @@ export default class Cat extends GameObject {
 
         if(Input.getKey(Key.D)) {
             this.transform.position.x += 5;
+        }
+
+        if(Input.getKeyDown(Key.SPACE)) {
+            this.spinning = true;
+
+            if(this.timeout) clearTimeout(this.timeout);
+
+            this.timeout = setTimeout(() => {
+                this.spinning = false;
+                this.timeout = null;
+            }, 1000);
         }
     }
 }
