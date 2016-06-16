@@ -5,6 +5,15 @@ import Vector2 from 'game/bamboo/math/Vector2';
 import Input from 'game/bamboo/input/Input';
 import Key from 'game/bamboo/input/Key';
 
+import connectGameObjectToStores from 'utils/connectGameObjectToStores';
+import PlayerStore from 'stores/PlayerStore';
+
+@connectToStores([PlayerStore], (cat) => ({
+        PlayerStore: (playerStore, change) => {
+            cat.updateTransform(playerStore.transform);
+        }
+    })
+});
 export default class Cat extends GameObject {
     constructor(parent, pos) {
         super('Cat', parent);

@@ -1,5 +1,29 @@
 import BaseStore from 'fluxible/addons/BaseStore';
 
+import {Vector2} from 'game/bamboo/Bamboo';
+
 export default class PlayerStore extends BaseStore {
     static storeName = 'PlayerStore'
+
+    static handlers = {
+        'UPDATE_TRANSFORM': 'updateTransform'
+    }
+
+    constructor(dispatcher) {
+        super(dispatcher);
+
+        this.transform = {
+            position: new Vector2(),
+            rotation: 0,
+            scale: Vector2.one()
+        }
+    }
+
+    updateTransform({position, rotation, scale}) {
+        this.transform.position = position ? new Vector2(position.x, position.y) : this.transform.position;
+        this.transform.rotation = rotation || this.transform.rotation;
+        this.transform.position = scale ? new Vector2(scale.x, scale.y) : this.transform.scale;
+
+        this.emitChange(this.transform);
+    }
 }
