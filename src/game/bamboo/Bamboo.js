@@ -64,5 +64,8 @@ export GameObject from './entity/GameObject';
 export Scene from './scene/Scene';
 export Camera from './scene/camera/Camera';
 
+// Math
+export Vector2 from './math/Vector2';
+
 // Helpers
-export TypeHelpers from './helpers/TypeHelpers';
+export * from './helpers/TypeHelpers';

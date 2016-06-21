@@ -1,19 +1,40 @@
-import Bamboo, {TypeHelpers} from 'game/bamboo/Bamboo';
+import Bamboo, {isGameObject} from 'game/bamboo/Bamboo';
 
-export function connectGameObjectToStores(gameObject, stores, getStateFromStores) {
-    if(!TypeHelpers.isGameObject(gameObject)) {
-        throw new Error(`Cannot connect ${GameObject} to stores`);
+function connectGameObjectToStores(GameObject, stores, getStateFromStores) {
+    if(!isGameObject(GameObject)) {
+        throw new Error(`Cannot connect ${GameObject} to stores. Must be a GameObject.`);
     }
 
-    let onStoreChange = () => {
-        if(GameObject.enabled) {
-            
+    let onStoreChange = (store, gameObject) => {
+        if(gameObject.enabled) {
+            let handlers = getStateFromStores(gameObject);
+
+            if(!handlers[store.storeName]) {
+                throw new Error(`Recieved change for ${store.storeName} but no handler was found in ${gameObject.id}'s connectGameObjectToStores'`)
+            }
+
+            let context = Bamboo.instance.context.getComponentContext();
+            handlers[store.storeName](context.getStore(store), context);
         }
-    };
+    }
 
-    stores.forEach(store => {
-        let context = Bamboo.instance.context.getActionContext();
+    class GameObjectStoreConnector extends GameObject {
+        constructor() {
+            super(...arguments);
 
-        this.context.getStore(store).on('change', onStoreChange);
-    });
+            let context = Bamboo.instance.context.getComponentContext();
+
+            stores.forEach(store => {
+                context.getStore(store).on('change', () => onStoreChange(store, this));
+            });
+        }
+    }
+
+    return GameObjectStoreConnector;
+}
+
+export default function decorate(...args) {
+    return function(GameObject) {
+        return connectGameObjectToStores(GameObject, ...args)
+    }
 }

@@ -12,6 +12,6 @@ export default class TestScene extends Scene {
     }
 
     start() {
-        new Cat(this, new Vector2(512, 334));
+        new Cat(this);
     }
 }
