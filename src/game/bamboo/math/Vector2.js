@@ -56,4 +56,8 @@ export default class Vector2 extends Point {
     angle(vector2) {
         return Math.atan(this.y - vector2.y, this.x - vector2.x);
     }
+
+    toString() {
+        return `x: ${this.x}, y: ${this.y}`;
+    }
 }
