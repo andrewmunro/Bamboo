@@ -1,4 +1,4 @@
-## Space Game
+## Bamboo
 This is a sandbox for developing the bamboo game engine. This project will focus on linking
 the client and server side rendering to enable fast development of multiplayer games. It will also link together Pixi.js and React using Fluxible for developing your site and UI around the game.
 
