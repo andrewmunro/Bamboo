@@ -5,8 +5,20 @@ import Vector2 from 'game/bamboo/math/Vector2';
 import Input from 'game/bamboo/input/Input';
 import Key from 'game/bamboo/input/Key';
 
+import connectGameObjectToStores from 'utils/connectGameObjectToStores';
+import PlayerStore from 'stores/PlayerStore';
+
+import {moveLeft, moveRight, moveUp, moveDown} from 'actions/player/moveActions';
+import Bamboo from 'game/bamboo/Bamboo';
+
+@connectGameObjectToStores([PlayerStore], cat => ({
+        PlayerStore: (playerStore, context) => {
+            cat.updateTransform(playerStore.transform);
+        }
+    })
+)
 export default class Cat extends GameObject {
-    constructor(parent, pos) {
+    constructor(parent) {
         super('Cat', parent);
         this.addComponent(this.dp = new DisplayObject('CatContainer'));
 
@@ -14,29 +26,36 @@ export default class Cat extends GameObject {
         this.addComponent(this.mouthPiece = Sprite.fromImage('https://media1.giphy.com/media/GWIpvD12KeoE/200_s.gif'));
         this.mouthPiece.position = new Vector2(20, -50);
 
-        this.transform.position = pos;
         this.transform.scale = Vector2.equal(0.5);
+
+        // Set initial position
+        this.updateTransform(this.context.getStore(PlayerStore).transform);
+    }
+
+    updateTransform(storeTransform) {
+        this.transform.position = storeTransform.position;
+        this.transform.rotation = storeTransform.rotation;
     }
 
     update(dt) {
-        if(this.spinning) {
-            this.transform.rotation += 0.1;
-        }
-
         if(Input.getKey(Key.W)) {
-            this.transform.position.y -= 5;
+            this.context.executeAction(moveUp);
         }
 
         if(Input.getKey(Key.S)) {
-            this.transform.position.y += 5;
+            this.context.executeAction(moveDown);
         }
 
         if(Input.getKey(Key.A)) {
-            this.transform.position.x -= 5;
+            this.context.executeAction(moveLeft);
         }
 
         if(Input.getKey(Key.D)) {
-            this.transform.position.x += 5;
+            this.context.executeAction(moveRight);
+        }
+
+        if(this.spinning) {
+            this.transform.rotation += 0.1;
         }
 
         if(Input.getKeyDown(Key.SPACE)) {

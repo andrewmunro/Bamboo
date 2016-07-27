@@ -20,7 +20,7 @@ export default class DisplayObject extends Component {
         this.displayObject.removeChild(displayObject.displayObject || displayObject);
     }
 
-    update(dt) {
+    preUpdate(dt) {
         if(this.transform) {
             this.displayObject.pivot = this.transform.anchor;
             this.displayObject.scale = this.transform.scale;
@@ -30,6 +30,6 @@ export default class DisplayObject extends Component {
             }
         }
 
-        super.update(dt);
+        super.preUpdate(dt);
     }
 }
