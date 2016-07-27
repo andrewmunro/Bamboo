@@ -10,7 +10,7 @@ export default class Home extends React.Component {
     render() {
         return (
             <div>
-                <h1>Space Game - Position: {this.props.playerPosition.toString()}</h1>
+                <h1>Bamboo - Position: {this.props.playerPosition.toString()}</h1>
                 <canvas id="gameCanvas"></canvas>
             </div>
         );

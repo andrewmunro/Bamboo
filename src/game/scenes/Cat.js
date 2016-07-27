@@ -29,7 +29,6 @@ export default class Cat extends GameObject {
         this.transform.scale = Vector2.equal(0.5);
 
         // Set initial position
-        this.context = Bamboo.instance.context.getComponentContext();
         this.updateTransform(this.context.getStore(PlayerStore).transform);
     }
 

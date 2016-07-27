@@ -13,6 +13,7 @@ export default class GameObject {
         this.id = id;
 
         this.transform = new Transform(parent ? parent.transform : null);
+        this.context = Bamboo.instance.context.getComponentContext();
         this.addComponent(this.transform);
 
         this.enabled = true;
