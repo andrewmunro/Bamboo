@@ -11,6 +11,6 @@ export default class Meteor extends GameObject {
     }
 
     update(dt) {
-
+        this.transform.rotation += 0.01;
     }
 }

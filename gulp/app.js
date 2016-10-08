@@ -28,12 +28,10 @@ module.exports = function(gulp) {
         }
 
         if(gutil.env.watch) {
-            gulp.watch(['./build/server.js', './build/client.js'], function(event) {
+            gulp.watch(['./build/server.js'], function(event) {
                 startApp(event);
             });
         }
-
-
 
         notify.info('App started!', 'PID: ' + serverProcess.pid);
     }, {
