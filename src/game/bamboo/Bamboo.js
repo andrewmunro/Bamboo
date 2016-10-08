@@ -4,6 +4,9 @@ import SceneManager from './scene/SceneManager';
 import input from './input/Input';
 import Vector2 from './math/Vector2';
 
+import TWEEN from 'tween.js';
+
+
 let instance = null;
 
 export default class Bamboo {
@@ -34,10 +37,11 @@ export default class Bamboo {
 
     onTick(dt) {
         // Update child tickers manually
-        let currentTime = this.ticker.elapsedMS + this.ticker.lastTime;
-        this.preUpdate.update(currentTime);
-        this.update.update(currentTime);
-        this.postUpdate.update(currentTime);
+        this.currentTime = this.ticker.elapsedMS + this.ticker.lastTime;
+        this.preUpdate.update(this.currentTime);
+        this.update.update(this.currentTime);
+        this.postUpdate.update(this.currentTime);
+        TWEEN.update(this.currentTime);
     }
 
     onPostUpdate(dt) {

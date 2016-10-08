@@ -2,13 +2,17 @@ import Bamboo, {GameObject, DisplayObject, Sprite, Scene, Vector2} from 'game/ba
 import {fullscreen} from 'game/bamboo/scene/camera/Cameras';
 import {clientOnly, serverOnly} from 'utils/Decorators';
 
-import Moon from 'game/scenes/space/entity/Moon';
+import Moon from 'game/scenes/title/entity/Moon';
+import Ship from 'game/scenes/title/entity/Ship';
+import TWEEN, {Tween} from 'tween.js';
+
 
 export default class TitleScene extends Scene {
     constructor() {
         super('TitleScene', fullscreen());
     }
 
+    @clientOnly
     start() {
         this.transform.anchor = new Vector2(0,0);
 
@@ -21,22 +25,13 @@ export default class TitleScene extends Scene {
         this.addComponent(this.title = Sprite.fromImage('/title/title.png'));
         this.title.position = new Vector2(1280 / 2, 720 / 2);
 
-        this.startClient();
-        this.startServer();
-    }
+        this.ship = new Ship(this);
+        this.ship.transform.position = new Vector2(2000, 100);
 
-    @clientOnly
-    startClient() {
-        this.context.handle('pong', (data) => console.log(data.message));
-        this.context.emit('ping');
-    }
-
-    @serverOnly
-    startServer() {
-        this.context.handle('ping', (data) => this.context.emit('pong', {message: 'Heloo World'}));
-    }
-
-    update() {
-        this.moon.rotation += 0.01;
+        let xTween = new Tween(this.ship.transform.position)
+            .to({x: -100}, 7000)
+            .easing( TWEEN.Easing.Cubic.InOut )
+            .repeat( Infinity )
+            .start();
     }
 }
