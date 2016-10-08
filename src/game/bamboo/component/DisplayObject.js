@@ -16,7 +16,7 @@ export default class DisplayObject extends Component {
         this.displayObject.addChild(displayObject.displayObject || displayObject);
     }
 
-    removeChild(pixiDisplayObject) {
+    removeChild(displayObject) {
         this.displayObject.removeChild(displayObject.displayObject || displayObject);
     }
 

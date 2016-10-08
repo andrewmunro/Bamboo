@@ -11,7 +11,8 @@ export class AppFactory {
             component: Router,
             stores: [
                 require('stores/PageStore'),
-                require('stores/client/PlayerStore')
+                require('stores/SceneStore'),
+                require('stores/client/PlayerStore'),
             ]
         });
 

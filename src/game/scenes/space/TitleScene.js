@@ -7,7 +7,6 @@ import Moon from 'game/scenes/space/entity/Moon';
 export default class TitleScene extends Scene {
     constructor() {
         super('TitleScene', fullscreen());
-
     }
 
     start() {
@@ -18,6 +17,9 @@ export default class TitleScene extends Scene {
 
         this.moon = new Moon(this);
         this.moon.transform.position = new Vector2(Bamboo.instance.width / 2, Bamboo.instance.height / 2);
+
+        this.addComponent(this.title = Sprite.fromImage('/title/title.png'));
+        this.title.position = new Vector2(1280 / 2, 720 / 2);
     }
 
     update() {

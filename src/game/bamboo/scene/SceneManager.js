@@ -2,6 +2,9 @@ import {List} from 'immutable';
 
 import DisplayObject from '../component/DisplayObject';
 
+import Bamboo from 'game/bamboo/Bamboo';
+import changeSceneAction from 'actions/scene/changeSceneAction';
+
 export default class SceneManager extends DisplayObject {
     constructor() {
         super('SceneManager');
@@ -46,7 +49,8 @@ export default class SceneManager extends DisplayObject {
             this.currentScene.enabled = true;
             this.currentScene.start();
             this.addChild(this.currentScene.cameraManager.displayObject);
-        }
+            Bamboo.instance.context.executeAction(changeSceneAction, this.currentScene);
+        };
 
         if (this.currentScene.loader.loaded || this.currentScene.loader._numToLoad == 0) {
             onSceneLoaded();

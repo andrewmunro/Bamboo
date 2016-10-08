@@ -8,6 +8,6 @@ export default class Game extends Bamboo {
         super(context, options);
 
         this.sceneManager.addScene(new TitleScene());
-        //this.sceneManager.addScene(new SpaceScene());
+        this.sceneManager.addScene(new SpaceScene());
     }
 }

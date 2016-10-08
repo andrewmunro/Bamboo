@@ -21,8 +21,8 @@ const io = require('socket.io')(server);
 
 import Game from 'game/Game';
 let game = new Game(app.createContext(), {
-    width: 1024,
-    height: 768
+    width: 1280,
+    height: 720
 });
 
 if(process.env.sourceMap) {
