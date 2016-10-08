@@ -23,6 +23,7 @@ export class AppFactory {
     initClientApp() {
         console.log('Registering client app');
         this.app.plug(require('plugins/SocketPlugin'));
+        this.app.plug(require('plugins/PlatformPlugin'));
     }
 
     @serverOnly

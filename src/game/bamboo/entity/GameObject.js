@@ -5,7 +5,7 @@ import {isComponent, isType} from '../helpers/TypeHelpers'
 import Transform from '../component/Transform';
 
 import DisplayObject from '../component/DisplayObject';
-import Bamboo from '../Bamboo';
+import Bamboo, {Scene} from '../Bamboo';
 
 export default class GameObject {
     constructor(id = 'GameObject', parent = null) {
@@ -131,5 +131,17 @@ export default class GameObject {
         }
 
         return parent;
+    }
+
+    get scene() {
+        if(!this.parent) {
+            return null;
+        }
+
+        if(isType(this.parent, Scene)) {
+            return this.parent;
+        }
+
+        return this.parent.scene;
     }
 }
