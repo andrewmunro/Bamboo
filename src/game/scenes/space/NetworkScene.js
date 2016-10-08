@@ -88,12 +88,23 @@ export default class NetworkScene extends Scene
 		}
 	}
 
-	requestJoin({ name })
+	requestJoin(data)
 	{
 		if(PlatformHelper.isServer())
 		{
-			this.addPlayer({ id: this.index++, name: name, spriteId: 1, x: 1280 / 2, y: 720 / 2, r: 0 });
+			this.addPlayer({ id: this.index++, name: data.name, spriteId: 1, x: 1280 / 2, y: 720 / 2, r: 0 });
 
+			// for(player of this.players)
+			// {
+			// 	this.context.emit('add-player', {
+			// 		id: player.id,
+			// 		name: player.name,
+			// 		spriteId: player.spriteId,
+			// 		x: player.physics.body.position[0],
+			// 		y: player.physics.body.position[1],
+			// 		r: 0
+			// 	}, data.sender);
+			// }
 		}
 	}
 

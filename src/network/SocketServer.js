@@ -39,14 +39,17 @@ class SocketServer {
         }
 
         this.handlers[event].push(callback);
+
     }
 
     emit(event, payload, socket) {
-        console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
+        //console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
 
-        let send = socket ? socket.emit : this.server.emit;
+        //let send = socket ? socket.emit.bind(this) : this.server.emit.bind(this);
 
-        send('event', {
+        //console.log('send' + send);
+
+        this.server.emit('event', {
             event,
             payload
         });

@@ -17,6 +17,7 @@ export default class Ship extends GameObject
 
 		this.id = id;
 		this.owner = owner;
+		this.spriteId = spriteId;
 
 		if(PlatformHelper.isClient())
 		{
