@@ -3,6 +3,8 @@ import Vector2 from 'game/bamboo/math/Vector2';
 import {fullscreen} from 'game/bamboo/scene/camera/Cameras';
 import {clientOnly, serverOnly} from 'utils/Decorators';
 
+import PlayerStore from 'stores/PlayerStore';
+
 import Ship from 'game/scenes/space/entity/Ship';
 import Meteor from 'game/scenes/space/entity/Meteor';
 import WorldComponent from 'game/scenes/space/component/WorldComponent';
@@ -23,7 +25,7 @@ export default class SpaceScene extends Scene {
         // this.background.position = Bamboo.instance.center;
 
         new Meteor(this);
-        this.ship = new Ship(this);
+        this.ship = new Ship(this, this.context.getStore(PlayerStore).playerName);
     }
 
     @clientOnly

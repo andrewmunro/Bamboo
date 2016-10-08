@@ -6,7 +6,8 @@ export default class PlayerStore extends BaseStore {
     static storeName = 'PlayerStore'
 
     static handlers = {
-        'UPDATE_TRANSFORM': 'updateTransform'
+        'UPDATE_TRANSFORM': 'updateTransform',
+        'SET_PLAYER_NAME': 'updatePlayerName'
     }
 
     constructor(dispatcher) {
@@ -25,5 +26,11 @@ export default class PlayerStore extends BaseStore {
         this.transform.scale = scale ? new Vector2(scale.x, scale.y) : this.transform.scale;
 
         this.emitChange(this.transform);
+    }
+
+    updatePlayerName(name) {
+        this.playerName = name;
+
+        this.emitChange(this.playerName);
     }
 }

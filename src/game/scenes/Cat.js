@@ -6,7 +6,7 @@ import Input from 'game/bamboo/input/Input';
 import Key from 'game/bamboo/input/Key';
 
 import connectGameObjectToStores from 'utils/connectGameObjectToStores';
-import PlayerStore from 'stores/client/PlayerStore';
+import PlayerStore from 'stores/PlayerStore';
 
 import {moveLeft, moveRight, moveUp, moveDown} from 'actions/player/moveActions';
 import Bamboo from 'game/bamboo/Bamboo';

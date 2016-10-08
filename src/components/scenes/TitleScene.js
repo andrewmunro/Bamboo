@@ -16,7 +16,7 @@ export default class TitleScene extends React.Component {
         return (
             <div className='title-scene'>
                 <span>Enter Your name:</span>
-                <input type='text' name='player-name' onKeyPress={(event) => this.onKeyPress(event)} />
+                <input autoFocus type='text' name='player-name' onKeyPress={(event) => this.onKeyPress(event)} />
             </div>
         )
     }

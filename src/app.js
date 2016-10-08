@@ -12,7 +12,7 @@ export class AppFactory {
             stores: [
                 require('stores/PageStore'),
                 require('stores/SceneStore'),
-                require('stores/client/PlayerStore'),
+                require('stores/PlayerStore'),
             ]
         });
 
