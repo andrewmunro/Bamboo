@@ -16,7 +16,7 @@ export default class Ship extends GameObject
 		super("Ship", parent);
 
 		this.addComponent(this.dp = new DisplayObject());
-		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_001.png'));
+		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + Math.floor(Math.random() * 9) + '.png'));
 
 		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
 		this.fire.position.y = -40;
