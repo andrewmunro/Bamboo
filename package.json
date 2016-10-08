@@ -37,7 +37,8 @@
     "react-router": "^2.4.1",
     "serialize-javascript": "^1.2.0",
     "socket.io": "^1.4.6",
-    "socket.io-client": "^1.4.6"
+    "socket.io-client": "^1.4.6",
+    "soundmanager2": "^2.97.20150601-a"
   },
   "devDependencies": {
     "babel-core": "^6.0.0",
