@@ -23,7 +23,7 @@ class SocketServer {
     }
 
     handleEvent(socket, {event, payload}) {
-        console.log(`[${socket.id}] Received ${event} with payload ${JSON.stringify(payload)}`);
+
         payload.sender = socket;
 
         this.context.dispatch(event, payload);

@@ -18,25 +18,26 @@ export default class Ship extends GameObject
 		this.id = id;
 		this.owner = owner;
 
-		this.addComponent(this.dp = new DisplayObject());
-		this.addComponent(this.ship = Sprite.fromImage('/sprites/Ships/spaceShips_00' + spriteId + '.png'));
-
-		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
-		this.fire.position.y = -40;
-
-		this.addComponent(this.jet = Sprite.fromImage('/sprites/flame-red.png'));
-		this.jet.position.y = -50;
-
-		this.ship.scale = new Point(0.5, 0.5);
-
-		this.nameplate = new Pixi.Text(name, { fill : 0xffffff });
-		this.nameplate.anchor.x = 0.5;
-		this.nameplate.anchor.y = -1;
-
-		this.dp.displayObject.addChild(this.nameplate);
-
 		if(PlatformHelper.isClient())
 		{
+			this.addComponent(this.dp = new DisplayObject());
+			this.addComponent(this.ship = Sprite.fromImage('/sprites/Ships/spaceShips_00' + spriteId + '.png'));
+
+			this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
+			this.fire.position.y = -40;
+
+			this.addComponent(this.jet = Sprite.fromImage('/sprites/flame-red.png'));
+			this.jet.position.y = -50;
+
+			this.ship.scale = new Point(0.5, 0.5);
+
+			this.nameplate = new Pixi.Text(name, { fill : 0xffffff });
+			this.nameplate.anchor.x = 0.5;
+			this.nameplate.anchor.y = -1;
+
+			this.dp.displayObject.addChild(this.nameplate);
+
+
 			this.addComponent(this.physics = new PhysicsComponent({ mass: 1 }, new P2.Circle({ radius: 30 })));
 
 			this.physics.body.position[0] = 500;
@@ -70,7 +71,7 @@ export default class Ship extends GameObject
 
 			if(!this.fireDown && Input.getKeyDown(Key.SPACE))
 			{
-				this.shoot();
+				this.shoot(true);
 			}
 
 			this.fire.scale.x = this.fire.scale.y = Input.getKey(Key.W) ? 1 : 0;
@@ -81,7 +82,7 @@ export default class Ship extends GameObject
 		}
 	}
 
-	shoot()
+	shoot(emit)
 	{
 		if(PlatformHelper.isClient())
 		{
@@ -90,7 +91,7 @@ export default class Ship extends GameObject
 
 			new Laser(this.parent, pos[0], pos[1], this.physics.body.angle);
 
-			// this.context.emit("fire", { id: this.id });
+			if(emit) this.context.emit("fire", { id: this.id });
 		}
 	}
 }

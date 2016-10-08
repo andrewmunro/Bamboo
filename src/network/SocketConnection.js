@@ -32,7 +32,7 @@ class SocketConnection {
     }
 
     emit(event, payload) {
-        console.log(`Emitting ${event} with payload: ${payload}`);
+        // console.log(`Emitting ${event} with payload: ${payload}`);
         this.socket.emit('event', {
             event,
             payload
