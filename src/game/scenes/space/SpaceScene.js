@@ -5,6 +5,7 @@ import {clientOnly, serverOnly} from 'utils/Decorators';
 
 import Ship from 'game/scenes/space/entity/Ship';
 import Meteor from 'game/scenes/space/entity/Meteor';
+import WorldComponent from 'game/scenes/space/component/WorldComponent';
 
 export default class SpaceScene extends Scene {
     constructor() {
@@ -12,6 +13,9 @@ export default class SpaceScene extends Scene {
     }
 
     start() {
+
+        this.addComponent(new WorldComponent());
+
         new Meteor(this);
         new Ship(this);
     }
