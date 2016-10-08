@@ -6,6 +6,7 @@ import PlatformHelper from 'helpers/PlatformHelper';
 
 import P2 from 'p2';
 import PhysicisComponent from 'game/scenes/space/component/PhysicsComponent';
+import Laser from 'game/scenes/space/entity/Laser';
 import Pixi, {Point} from 'pixi';
 
 export default class Ship extends GameObject
@@ -16,6 +17,13 @@ export default class Ship extends GameObject
 
 		this.addComponent(this.dp = new DisplayObject());
 		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_001.png'));
+
+		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
+		this.fire.position.y = -40;
+
+		this.addComponent(this.jet = Sprite.fromImage('/sprites/flame-red.png'));
+		this.jet.position.y = -50;
+
 		this.cat.scale = new Point(0.5, 0.5);
 
 		if(PlatformHelper.isClient())
@@ -48,6 +56,19 @@ export default class Ship extends GameObject
 			{
 				this.physics.body.angularVelocity = 0;
 			}
+
+			if(!this.fireDown && Input.getKeyDown(Key.SPACE))
+			{
+				var pos = [0, 0];
+				this.physics.body.toWorldFrame(pos, [0, 50]);
+
+				new Laser(this.parent, pos[0], pos[1], this.physics.body.angle);
+			}
+
+			this.fire.scale.x = this.fire.scale.y = Input.getKey(Key.W) ? 1 : 0;
+			this.jet.scale.x = this.jet.scale.y = Input.getKey(Key.SHIFT) ? 1 : 0;
+
+			this.fireDown = Input.getKeyDown(Key.SPACE);
 
 		}
 	}

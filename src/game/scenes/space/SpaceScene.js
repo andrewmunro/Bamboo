@@ -12,6 +12,7 @@ export default class SpaceScene extends Scene {
         super('SpaceScene', fullscreen());
     }
 
+    @clientOnly
     start() {
 
         this.addComponent(new WorldComponent());
