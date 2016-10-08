@@ -5,13 +5,13 @@ import Router from 'components/Router';
 
 import {clientOnly, serverOnly} from 'utils/Decorators';
 
-class AppFactory {
+export class AppFactory {
     constructor() {
         this.app = new Fluxible({
             component: Router,
             stores: [
                 require('stores/PageStore'),
-                require('stores/PlayerStore')
+                require('stores/client/PlayerStore')
             ]
         });
 

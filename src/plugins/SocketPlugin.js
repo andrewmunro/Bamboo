@@ -4,13 +4,12 @@ class SocketConnection {
     constructor() {
         this.socket = io('http://localhost:3000');
 
-        this.socket.on('connect', function() {
+        this.socket.on('connect', () => {
             console.log('connected!');
         });
     }
 
     register(actionContext) {
-        console.log("Registered!");
         this.context = actionContext;
 
         this.socket.on('dispatch', this.handleDispatch.bind(this));
@@ -19,7 +18,6 @@ class SocketConnection {
 
     handleDispatch({event, payload}) {
         console.log(`Dispatching ${event} with payload: ${payload}`);
-
         this.context.dispatch(event, payload);
     }
 

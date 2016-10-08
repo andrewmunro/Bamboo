@@ -66,23 +66,36 @@ koa.use(async (ctx, next) => {
             }
         });
     }).then(result => {
-        ctx.response.body = '<!DOCTYPE html>' + result;
+        ctx.response.body = `<!DOCTYPE html>${result}`;
         ctx.response.type = 'html';
     }).catch(error => {
         ctx.throw(error.message, 500);
     });
 });
 
-io.on('connection', function(socket){
+io.on('connection', socket => {
     console.log('connected: ' + socket.id);
 
-    socket.on('event', function(data) {
+    socket.on('event', data => {
         console.log(data);
     });
 
-    socket.on('disconnect', function(){
+    socket.on('disconnect', () => {
         console.log("disconnected: " + socket.id);
     });
+
+    //setTimeout(() => {
+    //    console.log("dispatching update_transform");
+    //    socket.emit('dispatch', {
+    //        event: 'UPDATE_TRANSFORM',
+    //        payload: {
+    //            position: {
+    //                x: 100,
+    //                y: 100
+    //            }
+    //        }
+    //    });
+    //}, 3000);
 });
 
 const port = process.env.PORT || 3000;

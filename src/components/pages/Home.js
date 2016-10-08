@@ -1,7 +1,7 @@
 import React from 'react';
 import connectToStores from 'fluxible-addons-react/connectToStores';
 
-import PlayerStore from 'stores/PlayerStore';
+import PlayerStore from 'stores/client/PlayerStore';
 
 @connectToStores([PlayerStore], (context, props) => ({
     playerPosition: context.getStore(PlayerStore).transform.position

@@ -2,6 +2,7 @@ import {Scene, Sprite} from 'game/bamboo/Bamboo';
 import Cat from 'game/scenes/Cat';
 import Vector2 from 'game/bamboo/math/Vector2';
 import {fullscreen} from 'game/bamboo/scene/camera/Cameras';
+import {clientOnly, serverOnly} from 'utils/Decorators';
 
 export default class TestScene extends Scene {
     constructor() {
@@ -12,6 +13,17 @@ export default class TestScene extends Scene {
     }
 
     start() {
+        this.startClient();
+        this.startServer();
+    }
+
+    @clientOnly
+    startClient() {
         new Cat(this);
+    }
+
+    @serverOnly
+    startServer() {
+
     }
 }
