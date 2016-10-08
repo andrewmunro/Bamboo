@@ -11,7 +11,7 @@ export default class SceneManager extends DisplayObject {
     addScene(scene) {
         this.scenes = this.scenes.push(scene);
 
-        if(!this.currentScene) {
+        if (!this.currentScene) {
             this.changeScene(scene.id);
         }
     }
@@ -22,7 +22,7 @@ export default class SceneManager extends DisplayObject {
 
     removeScene(sceneId) {
         let scene = this.getScene(sceneId);
-        if(!scene) {
+        if (!scene) {
             throw new Error(`Failed to remove scene ${sceneId}. It was not found in the SceneManager.`);
         }
 
@@ -31,11 +31,11 @@ export default class SceneManager extends DisplayObject {
 
     changeScene(sceneId) {
         let scene = this.getScene(sceneId);
-        if(!scene) {
+        if (!scene) {
             throw new Error(`Failed to change scene to ${sceneId}. It was not found in the SceneManager.`);
         }
 
-        if(this.currentScene) {
+        if (this.currentScene) {
             this.currentScene.enabled = false;
             this.removeChild(this.currentScene.cameraManager.displayObject);
         }
@@ -48,11 +48,11 @@ export default class SceneManager extends DisplayObject {
             this.addChild(this.currentScene.cameraManager.displayObject);
         }
 
-        if(this.currentScene.loader.loaded) {
-			onSceneLoaded();
-		} else {
-			this.currentScene.loader.once('complete', () => onSceneLoaded());
-			this.currentScene.loader.load();
-		}
+        if (this.currentScene.loader.loaded || this.currentScene.loader._numToLoad == 0) {
+            onSceneLoaded();
+        } else {
+            this.currentScene.loader.once('complete', () => onSceneLoaded());
+            this.currentScene.loader.load();
+        }
     }
 }

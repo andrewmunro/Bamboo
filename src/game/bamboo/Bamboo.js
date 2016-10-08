@@ -11,7 +11,7 @@ export default class Bamboo {
 
         this.context = context;
         this.width = width || 1024;
-        this.height = height || 768
+        this.height = height || 768;
 
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
         this.stage = new Container();
@@ -32,7 +32,7 @@ export default class Bamboo {
 
     onTick(dt) {
         // Update child tickers manually
-        let currentTime = this.ticker.elapsedMS + this.ticker.lastTime
+        let currentTime = this.ticker.elapsedMS + this.ticker.lastTime;
         this.preUpdate.update(currentTime);
         this.update.update(currentTime);
         this.postUpdate.update(currentTime);
