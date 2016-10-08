@@ -99,7 +99,7 @@ export default class NetworkScene extends Scene
 
 	movePlayer(data)
 	{
-		if(data.id == localPlayer.id) return;
+		if(!this.localPlayer || data.id == this.localPlayer.id) return;
 
 		this.players[data.id].physics.body.position[0] = data.x;
 		this.players[data.id].physics.body.position[1] = data.y;
@@ -116,8 +116,8 @@ export default class NetworkScene extends Scene
 			this.context.emit('move-player', {
 				id: this.localPlayer.id,
 				x: this.localPlayer.physics.body.position[0],
-				x: this.localPlayer.physics.body.position[1],
-				x: this.localPlayer.physics.body.angle
+				y: this.localPlayer.physics.body.position[1],
+				r: this.localPlayer.physics.body.angle
 			});
 		}
 	}
