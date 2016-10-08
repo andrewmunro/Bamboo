@@ -6,7 +6,7 @@ export default class Application extends React.Component {
         super(props, context);
     }
 
-    toggleFullscreen() {
+    toggleFullscreen(event) {
         if ((document.fullScreenElement && document.fullScreenElement !== null) ||
             (!document.mozFullScreen && !document.webkitIsFullScreen)) {
             if (document.documentElement.requestFullScreen) {
@@ -25,12 +25,14 @@ export default class Application extends React.Component {
                 document.webkitCancelFullScreen();
             }
         }
+
+        event.target.blur();
     }
 
     render() {
         return (
             <div>
-                <button className='toggle-fullscreen-btn' onClick={() => this.toggleFullscreen()} ></button>
+                <button className='toggle-fullscreen-btn' onClick={(event) => this.toggleFullscreen(event)} ></button>
                 {this.props.children}
             </div>
         );
