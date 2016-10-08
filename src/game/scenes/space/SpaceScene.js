@@ -3,6 +3,7 @@ import Vector2 from 'game/bamboo/math/Vector2';
 import {fullscreen} from 'game/bamboo/scene/camera/Cameras';
 import {clientOnly, serverOnly} from 'utils/Decorators';
 
+import Ship from 'game/scenes/space/entity/Ship';
 import Meteor from 'game/scenes/space/entity/Meteor';
 
 export default class SpaceScene extends Scene {
@@ -12,6 +13,7 @@ export default class SpaceScene extends Scene {
 
     start() {
         new Meteor(this);
+        new Ship(this);
     }
 
     update() {
