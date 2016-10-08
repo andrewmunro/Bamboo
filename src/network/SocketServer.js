@@ -24,6 +24,8 @@ class SocketServer {
 
     handleEvent(socket, {event, payload}) {
         console.log(`[${socket.id}] Received ${event} with payload ${JSON.stringify(payload)}`);
+        payload.sender = socket;
+
         this.context.dispatch(event, payload);
 
         if(this.handlers[event]) {
@@ -39,9 +41,12 @@ class SocketServer {
         this.handlers[event].push(callback);
     }
 
-    emit(event, payload) {
+    emit(event, payload, socket) {
         console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
-        this.server.emit('event', {
+
+        let send = socket ? socket.emit : this.server.emit;
+
+        send('event', {
             event,
             payload
         });
