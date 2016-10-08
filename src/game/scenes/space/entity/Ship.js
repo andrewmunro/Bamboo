@@ -11,12 +11,15 @@ import Pixi, {Point} from 'pixi';
 
 export default class Ship extends GameObject
 {
-	constructor(parent, name = "Ship McShip Face")
+	constructor(parent, id, name = "Ship McShip Face", spriteId, owner = false)
 	{
 		super("Ship", parent);
 
+		this.id = id;
+		this.owner = owner;
+
 		this.addComponent(this.dp = new DisplayObject());
-		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + (1 + Math.floor(Math.random() * 8)) + '.png'));
+		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + spriteId + '.png'));
 
 		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
 		this.fire.position.y = -40;
@@ -43,7 +46,7 @@ export default class Ship extends GameObject
 
 	update(dt)
 	{
-		if(PlatformHelper.isClient())
+		if(PlatformHelper.isClient() && this.owner)
 		{
 			this.nameplate.rotation = -this.physics.body.angle;
 
@@ -67,10 +70,7 @@ export default class Ship extends GameObject
 
 			if(!this.fireDown && Input.getKeyDown(Key.SPACE))
 			{
-				var pos = [0, 0];
-				this.physics.body.toWorldFrame(pos, [0, 50]);
-
-				new Laser(this.parent, pos[0], pos[1], this.physics.body.angle);
+				this.shoot();
 			}
 
 			this.fire.scale.x = this.fire.scale.y = Input.getKey(Key.W) ? 1 : 0;
@@ -78,6 +78,19 @@ export default class Ship extends GameObject
 
 			this.fireDown = Input.getKeyDown(Key.SPACE);
 
+		}
+	}
+
+	shoot()
+	{
+		if(PlatformHelper.isClient())
+		{
+			var pos = [0, 0];
+			this.physics.body.toWorldFrame(pos, [0, 50]);
+
+			new Laser(this.parent, pos[0], pos[1], this.physics.body.angle);
+
+			// this.context.emit("fire", { id: this.id });
 		}
 	}
 }

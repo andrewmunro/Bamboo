@@ -21,7 +21,7 @@ if(platformHelper.isClient()) {
     pixi.Point = pixi.math.Point;
     pixi.Matrix = pixi.math.Matrix;
 
-    pixi.RenderTexture = pixi.Sprite = pixi.TilingSprite = pixi.Rectangle =
+    pixi.RenderTexture = pixi.Sprite = pixi.TilingSprite = pixi.Rectangle = pixi.Graphics =
     pixi.Container = function(){
         return {
             addChild:function(){},
