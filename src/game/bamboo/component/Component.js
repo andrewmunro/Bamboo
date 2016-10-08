@@ -15,4 +15,8 @@ export default class Component {
     get transform() {
         return this.gameObject ? this.gameObject.transform : null;
     }
+
+    get context() {
+        return this.gameObject ? this.gameObject.context : null;
+    }
 }

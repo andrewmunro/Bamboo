@@ -5,7 +5,7 @@ import Key from 'game/bamboo/input/Key';
 import PlatformHelper from 'helpers/PlatformHelper';
 
 import P2 from 'p2';
-import PhysicisComponent from 'game/scenes/space/component/PhysicsComponent';
+import PhysicsComponent from 'game/scenes/space/component/PhysicsComponent';
 import Pixi, {Point} from 'pixi';
 
 export default class Laser extends GameObject
@@ -19,7 +19,7 @@ export default class Laser extends GameObject
 
 		if(PlatformHelper.isClient())
 		{
-			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 1 })));
+			this.addComponent(this.physics = new PhysicsComponent({ mass: 1 }, new P2.Circle({ radius: 1 })));
 
 			this.physics.body.position[0] = x;
 			this.physics.body.position[1] = y;

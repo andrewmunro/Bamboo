@@ -5,13 +5,13 @@ import Key from 'game/bamboo/input/Key';
 import PlatformHelper from 'helpers/PlatformHelper';
 
 import P2 from 'p2';
-import PhysicisComponent from 'game/scenes/space/component/PhysicsComponent';
+import PhysicsComponent from 'game/scenes/space/component/PhysicsComponent';
 import Laser from 'game/scenes/space/entity/Laser';
 import Pixi, {Point} from 'pixi';
 
 export default class Ship extends GameObject
 {
-	constructor(parent, id, name = "Ship McShip Face", spriteId, owner = false)
+	constructor(parent, id, name, spriteId, owner = false)
 	{
 		super("Ship", parent);
 
@@ -19,7 +19,7 @@ export default class Ship extends GameObject
 		this.owner = owner;
 
 		this.addComponent(this.dp = new DisplayObject());
-		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + spriteId + '.png'));
+		this.addComponent(this.ship = Sprite.fromImage('/sprites/Ships/spaceShips_00' + spriteId + '.png'));
 
 		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
 		this.fire.position.y = -40;
@@ -27,7 +27,7 @@ export default class Ship extends GameObject
 		this.addComponent(this.jet = Sprite.fromImage('/sprites/flame-red.png'));
 		this.jet.position.y = -50;
 
-		this.cat.scale = new Point(0.5, 0.5);
+		this.ship.scale = new Point(0.5, 0.5);
 
 		this.nameplate = new Pixi.Text(name, { fill : 0xffffff });
 		this.nameplate.anchor.x = 0.5;
@@ -37,7 +37,7 @@ export default class Ship extends GameObject
 
 		if(PlatformHelper.isClient())
 		{
-			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 30 })));
+			this.addComponent(this.physics = new PhysicsComponent({ mass: 1 }, new P2.Circle({ radius: 30 })));
 
 			this.physics.body.position[0] = 500;
 			this.physics.body.position[1] = 300;

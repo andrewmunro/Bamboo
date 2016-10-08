@@ -2,9 +2,9 @@ import Component from 'game/bamboo/component/Component';
 import P2 from 'p2';
 import WorldComponent from 'game/scenes/space/component/WorldComponent';
 
-export default class PhysicisComponent extends Component
+export default class PhysicsComponent extends Component
 {
-	constructor(parent, body, shape)
+	constructor(body, shape)
 	{
 		super();
 

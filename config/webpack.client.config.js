@@ -6,7 +6,9 @@ module.exports = {
         root: [path.join(__dirname, '../src')],
         extensions: ['', '.js'],
         alias: {
-            pixi: 'utils/PixiLoader'
+            pixi: 'utils/PixiLoader',
+            'socket.io': 'utils/mockRequire',
+            'network/WebServer': 'utils/mockRequire'
         }
     },
     output: {

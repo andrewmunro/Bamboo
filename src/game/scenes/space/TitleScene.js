@@ -20,6 +20,20 @@ export default class TitleScene extends Scene {
 
         this.addComponent(this.title = Sprite.fromImage('/title/title.png'));
         this.title.position = new Vector2(1280 / 2, 720 / 2);
+
+        this.startClient();
+        this.startServer();
+    }
+
+    @clientOnly
+    startClient() {
+        this.context.handle('pong', (data) => console.log(data.message));
+        this.context.emit('ping');
+    }
+
+    @serverOnly
+    startServer() {
+        this.context.handle('ping', (data) => this.context.emit('pong', {message: 'Heloo World'}));
     }
 
     update() {

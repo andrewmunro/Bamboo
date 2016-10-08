@@ -3,7 +3,7 @@ import P2 from 'p2';
 
 export default class WorldComponent extends Component
 {
-	constructor(parent)
+	constructor()
 	{
 		super();
 

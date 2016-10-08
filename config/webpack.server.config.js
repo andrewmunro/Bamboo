@@ -16,7 +16,8 @@ module.exports = {
     resolve: {
         root: [path.join(__dirname, '../src')],
         alias: {
-            pixi: 'utils/PixiLoader'
+            pixi: 'utils/PixiLoader',
+            'socket.io-client': 'utils/mockRequire'
         }
     },
     target: 'node',
