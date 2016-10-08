@@ -1,8 +1,35 @@
+.toggle-fullscreen-btn {
+    position:absolute;
+    top: 20px;
+    right: 20px;
+    background-image: url(images/fullscreen-button.png);
+    background-size: cover;
+    opacity: 0.8;
+    width: 30px;
+    height: 30px;
+}
+
+body, html {
+    width: 100%;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+}
+
+#gameCanvas {
+    width: 100vw;
+    height: 100vh;
+}
+
+.toggle-fullscreen-btn:focus {
+    outline: 0;
+}
+
 .title-scene {
     font-family: 'Righteous', cursive;
     position: absolute;
     color: yellow;
-    top: 670px;
+    bottom: 50px;
     left: 500px;
 }
 
