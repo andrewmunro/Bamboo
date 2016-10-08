@@ -2,6 +2,7 @@ import Pixi, {Container} from 'pixi';
 
 import SceneManager from './scene/SceneManager';
 import input from './input/Input';
+import Vector2 from './math/Vector2';
 
 let instance = null;
 
@@ -12,6 +13,7 @@ export default class Bamboo {
         this.context = context;
         this.width = width || 1024;
         this.height = height || 768;
+        this.center = new Vector2(this.width / 2, this.height / 2);
 
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
         this.stage = new Container();

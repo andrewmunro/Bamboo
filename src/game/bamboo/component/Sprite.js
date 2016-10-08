@@ -5,10 +5,11 @@ import Component from './Component';
 export default class Sprite extends Component {
     static componentName = 'Sprite'
 
-    constructor(texture) {
+    constructor(texture, tiling = false) {
         super();
 
         this._texture = texture;
+        this.tiling = tiling;
     }
 
     start() {
@@ -19,7 +20,13 @@ export default class Sprite extends Component {
         if(this.sprite) {
             displayObject.removeChild(this.sprite);
         }
-        displayObject.addChild(this.sprite = new Pixi.Sprite(this._texture));
+
+        if(this.tiling) {
+            displayObject.addChild(this.sprite = new Pixi.TilingSprite(this._texture, 12800, 7200));
+        } else {
+            displayObject.addChild(this.sprite = new Pixi.Sprite(this._texture));
+        }
+
 
         this.sprite.anchor = new Point(0.5, 0.5);
     }
@@ -80,7 +87,7 @@ export default class Sprite extends Component {
         return texture;
     }
 
-    static fromImage(url) {
-        return new Sprite(Pixi.Texture.fromImage(url));
+    static fromImage(url, tiling = false) {
+        return new Sprite(Pixi.Texture.fromImage(url), tiling);
     }
 }
