@@ -10,7 +10,7 @@ export default class WorldComponent extends Component
 		console.log(P2);
 
 		this.world = new P2.World({
-			gravity: [ 0, 100 ]
+			gravity: [ 0, 0 ]
 		});
 
 		console.log(this.world);
