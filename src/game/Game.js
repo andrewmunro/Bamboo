@@ -1,4 +1,4 @@
-import Bamboo, {GameObject, Transform} from 'game/bamboo/Bamboo';
+import Bamboo from 'game/bamboo/Bamboo';
 
 import TestScene from 'game/scenes/TestScene';
 import SpaceScene from 'game/scenes/space/SpaceScene';

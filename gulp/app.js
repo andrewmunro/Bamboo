@@ -14,7 +14,7 @@ module.exports = function(gulp) {
         serverProcess.on('message', function(message) {
             if(message === 'ready') {
                 if(gutil.env.livereload) {
-                    livereload.changed(event ? event.path : '');
+                    setTimeout(function() { livereload.changed(event ? event.path : '')}, 1000);
                 }
             }
         });
