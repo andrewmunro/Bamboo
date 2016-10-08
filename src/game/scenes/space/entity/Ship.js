@@ -11,7 +11,7 @@ import Pixi, {Point} from 'pixi';
 
 export default class Ship extends GameObject
 {
-	constructor(parent)
+	constructor(parent, name = "Ship McShip Face")
 	{
 		super("Ship", parent);
 
@@ -26,6 +26,12 @@ export default class Ship extends GameObject
 
 		this.cat.scale = new Point(0.5, 0.5);
 
+		this.nameplate = new Pixi.Text(name, { fill : 0xffffff });
+		this.nameplate.anchor.x = 0.5;
+		this.nameplate.anchor.y = -1;
+
+		this.dp.displayObject.addChild(this.nameplate);
+
 		if(PlatformHelper.isClient())
 		{
 			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 1 })));
@@ -39,6 +45,8 @@ export default class Ship extends GameObject
 	{
 		if(PlatformHelper.isClient())
 		{
+			this.nameplate.rotation = -this.physics.body.angle;
+
 			var speed = Input.getKey(Key.SHIFT) ? 30 : 10;
 
 			if(Input.getKey(Key.W)) this.physics.body.applyForceLocal([0, speed]);
