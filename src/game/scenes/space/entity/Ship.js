@@ -16,7 +16,7 @@ export default class Ship extends GameObject
 		super("Ship", parent);
 
 		this.addComponent(this.dp = new DisplayObject());
-		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + Math.floor(Math.random() * 9) + '.png'));
+		this.addComponent(this.cat = Sprite.fromImage('/sprites/Ships/spaceShips_00' + (1 + Math.floor(Math.random() * 8)) + '.png'));
 
 		this.addComponent(this.fire = Sprite.fromImage('/sprites/flames-yellow.png'));
 		this.fire.position.y = -40;
@@ -34,7 +34,7 @@ export default class Ship extends GameObject
 
 		if(PlatformHelper.isClient())
 		{
-			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 1 })));
+			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 30 })));
 
 			this.physics.body.position[0] = 500;
 			this.physics.body.position[1] = 300;

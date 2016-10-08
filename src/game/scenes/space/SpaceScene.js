@@ -24,8 +24,15 @@ export default class SpaceScene extends Scene {
 
         // this.background.position = Bamboo.instance.center;
 
-        new Meteor(this);
         this.ship = new Ship(this, this.context.getStore(PlayerStore).playerName);
+
+        for (var i = 20; i >= 0; i--) {
+            var x = (Math.random() * 2000) - 1000;
+            var y = (Math.random() * 2000) - 1000;
+            new Meteor(this, x, y);
+        }
+
+        this.ship = new Ship(this);
     }
 
     @clientOnly

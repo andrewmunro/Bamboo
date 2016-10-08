@@ -19,7 +19,7 @@ export default class Laser extends GameObject
 
 		if(PlatformHelper.isClient())
 		{
-			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1, fixedRotation: true }, new P2.Circle({ radius: 1 })));
+			this.addComponent(this.physics = new PhysicisComponent(this, { mass: 1 }, new P2.Circle({ radius: 1 })));
 
 			this.physics.body.position[0] = x;
 			this.physics.body.position[1] = y;
