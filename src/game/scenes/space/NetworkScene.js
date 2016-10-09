@@ -20,19 +20,20 @@ export default class NetworkScene extends Scene
 		this.index = 0;
 		this.meteors = [];
 
-		var names = [
+		this.defaultNames = [
 			"Barry",
 			"Herambe",
 			"DrSpliff",
 			"JonnyShoots",
 			"CptPoopaScoop"
 		];
-
-		this.name = names[Math.floor(Math.random() * (names.length - 1))] + Math.floor(1000 + Math.random() * 9000);
 	}
 
 	start()
 	{
+        let name = this.context.getStore(PlayerStore).playerName;
+        this.name = (name || this.defaultNames[Math.floor(Math.random() * (this.defaultNames.length - 1))]) + Math.floor(1000 + Math.random() * 9000);
+
 		if(PlatformHelper.isClient())
 		{
             this.addComponent(this.background = Sprite.fromImage('/sprites/bg_back1.png', true));
@@ -42,9 +43,9 @@ export default class NetworkScene extends Scene
 
         this.addComponent(new WorldComponent());
 
-        for (var i = 5; i >= 0; i--) {
-            var x = (Math.random() * 2000) - 1000;
-            var y = (Math.random() * 2000) - 1000;
+        for (let i = 5; i >= 0; i--) {
+            let x = (Math.random() * 2000) - 1000;
+            let y = (Math.random() * 2000) - 1000;
 
             this.meteors.push(new Meteor(this, x, y));
         }
@@ -72,7 +73,7 @@ export default class NetworkScene extends Scene
 	}
 
     moveMeteors(data) {
-        for(var i = 0; i < data.length; i++) {
+        for(let i = 0; i < data.length; i++) {
             this.meteors[i].transform.position = new Vector2(data[i].x, data[i].y);
             this.meteors[i].rotation = data[i].rotation;
         }
