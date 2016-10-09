@@ -6,10 +6,14 @@ import Pixi, {Point} from 'pixi';
 import PlayerStore from 'stores/PlayerStore';
 
 import Ship from 'game/scenes/space/entity/Ship';
+import Wall from 'game/scenes/space/entity/Wall';
 import Planets from 'game/scenes/space/entity/Planets';
 import Meteor from 'game/scenes/space/entity/Meteor';
 import WorldComponent from 'game/scenes/space/component/WorldComponent';
 import PlatformHelper from 'helpers/PlatformHelper';
+
+import P2 from 'p2';
+import PhysicsComponent from 'game/scenes/space/component/PhysicsComponent';
 
 export default class NetworkScene extends Scene
 {
@@ -52,6 +56,8 @@ export default class NetworkScene extends Scene
 
             this.meteors.push(new Meteor(this, x, y));
         }
+
+        new Wall(this);
 
 		this.context.handle('add-player', this.addPlayer.bind(this));
 		this.context.handle('move-player', this.movePlayer.bind(this));

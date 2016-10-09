@@ -22,7 +22,7 @@ export default class Sprite extends Component {
         }
 
         if(this.tiling) {
-            displayObject.addChild(this.sprite = new Pixi.TilingSprite(this._texture, 12800, 7200));
+            displayObject.addChild(this.sprite = new Pixi.TilingSprite(this._texture, 128000, 72000));
         } else {
             displayObject.addChild(this.sprite = new Pixi.Sprite(this._texture));
         }
