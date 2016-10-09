@@ -150,6 +150,9 @@ export default class NetworkScene extends Scene
 	{
 		if(PlatformHelper.isClient() && this.localPlayer)
 		{
+			this.foreground.position.x = this.cameraManager.cameras[0].targetPosition.x * 0.1;
+		            this.foreground.position.y = this.cameraManager.cameras[0].targetPosition.y * 0.1;
+
 			if(this.updateTick > 0)
 			{
 				this.updateTick = 0;
@@ -167,6 +170,8 @@ export default class NetworkScene extends Scene
 
 			this.updateTick++;
 		}
+
+
 
         if(PlatformHelper.isServer()) {
             this.context.emit('move-meteors', this.meteors.map(meteor => ({
