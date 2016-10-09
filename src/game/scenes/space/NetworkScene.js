@@ -139,6 +139,7 @@ export default class NetworkScene extends Scene
         if(PlatformHelper.isServer() && this.players[data.id]) {
             this.players[data.id].transform.position.x = data.x;
             this.players[data.id].transform.position.y = data.y;
+            this.players[data.id].transform.rotation = data.r;
         }
 
 		if(PlatformHelper.isServer()) this.context.emit('move-player', data);

@@ -12,7 +12,7 @@ export default class Meteor extends GameObject {
         this.addComponent(this.dp = new DisplayObject('MeteorContainer'));
 
         if(PlatformHelper.isServer()) {
-            this.addComponent(this.physics = new PhysicsComponent({ mass: 5 }, new P2.Circle({ radius: 100 })));
+            this.addComponent(this.physics = new PhysicsComponent({ mass: 20 }, new P2.Circle({ radius: 100 })));
             this.physics.body.position[0] = x;
             this.physics.body.position[1] = y;
         }

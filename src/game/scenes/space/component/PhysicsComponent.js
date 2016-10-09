@@ -4,11 +4,12 @@ import WorldComponent from 'game/scenes/space/component/WorldComponent';
 
 export default class PhysicsComponent extends Component
 {
-	constructor(body, shape)
+	constructor(body, shape, owner = true)
 	{
 		super();
 
 		this.shape = shape;
+        this.owner = owner;
 		this.body = new P2.Body(body);
 
 		this.body.addShape(shape);
@@ -21,10 +22,17 @@ export default class PhysicsComponent extends Component
 
 	update(dt)
 	{
-		this.gameObject.transform.position.x = this.body.position[0];
-		this.gameObject.transform.position.y = this.body.position[1];
+        if(this.owner) {
+            this.transform.position.x = this.body.position[0];
+            this.transform.position.y = this.body.position[1];
 
-		this.gameObject.transform.rotation = this.body.angle;
+            this.transform.rotation = this.body.angle;
+        }// else {
+        //    this.body.position[0] = this.transform.position.x;
+        //    this.body.position[1] = this.transform.position.y;
+        //    this.body.angle = this.transform.rotation;
+        //}
+
 	}
 
 	get world()

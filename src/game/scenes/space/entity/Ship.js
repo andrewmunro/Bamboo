@@ -85,6 +85,7 @@ export default class Ship extends GameObject
         if(PlatformHelper.isServer()) {
             this.physics.body.position[0] = this.transform.position.x;
             this.physics.body.position[1] = this.transform.position.y;
+            this.physics.body.angle = this.transform.rotation;
         }
 	}
 
