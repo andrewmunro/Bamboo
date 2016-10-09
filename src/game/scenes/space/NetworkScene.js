@@ -18,6 +18,7 @@ export default class NetworkScene extends Scene
 
 		this.players = {};
 		this.index = 0;
+		this.meteors = [];
 
 		var names = [
 			"Barry",
@@ -27,29 +28,26 @@ export default class NetworkScene extends Scene
 			"CptPoopaScoop"
 		];
 
-		this.name = names[Math.floor(Math.random() * (names.length - 1))];
+		this.name = names[Math.floor(Math.random() * (names.length - 1))] + Math.floor(1000 + Math.random() * 9000);
 	}
 
 	start()
 	{
 		if(PlatformHelper.isClient())
 		{
-			this.addComponent(new WorldComponent());
+            this.addComponent(this.background = Sprite.fromImage('/sprites/bg_back1.png', true));
+            this.addComponent(this.foreground = Sprite.fromImage('/sprites/bg_front.png', true));
+            this.context.handle('move-meteors', this.moveMeteors.bind(this));
+        }
 
-			this.addComponent(Sprite.fromImage('/sprites/pattern.png', true));
+        this.addComponent(new WorldComponent());
 
-			var graphics = new Pixi.Graphics();
+        for (var i = 5; i >= 0; i--) {
+            var x = (Math.random() * 2000) - 1000;
+            var y = (Math.random() * 2000) - 1000;
 
-			graphics.lineStyle(1, 0xFF0000, 1);
-			graphics.moveTo(1280 / 2, 0);
-			graphics.lineTo(1280 / 2, 720);
-
-			graphics.lineStyle(1, 0x00FF00, 1);
-			graphics.moveTo(0, 720 / 2);
-			graphics.lineTo(1280, 720 / 2);
-
-			this.displayObject.displayObject.addChild(graphics);
-		}
+            this.meteors.push(new Meteor(this, x, y));
+        }
 
 		this.context.handle('add-player', this.addPlayer.bind(this));
 		this.context.handle('move-player', this.movePlayer.bind(this));
@@ -59,19 +57,6 @@ export default class NetworkScene extends Scene
 		if(PlatformHelper.isServer()) this.context.handle('request-join', this.requestJoin.bind(this));
 
 		this.updateTick = 0;
-
-		// if(PlatformHelper.isClient())
-		// {
-		// 	this.addPlayer({ id: 0, name: "Test",  spriteId: 1 });
-		// 	this.movePlayer({ id: 0, x: 1280 / 2, y: 720 / 2, r: 10 });
-
-		// 	this.addPlayer({ id: 1, name: "Barry", spriteId: 3 }, true);
-		// 	this.movePlayer({ id: 0, x: 0, y: 0, r: 0 });
-
-		// 	setInterval(() => {
-		// 		this.fire({ id: 1 });
-		// 	}, 2000);
-		// }
 	}
 
 	fire(data)
@@ -80,31 +65,39 @@ export default class NetworkScene extends Scene
 		{
 			this.context.emit('fire', { id: data.id });
 		}
-		else
-		{
 			if(this.localPlayer && data.id == this.localPlayer.id) return;
 
-			this.players[data.id].shoot(false);
-		}
+			if(this.players[data.id]) this.players[data.id].shoot(false);
+		//}
 	}
+
+    moveMeteors(data) {
+        for(var i = 0; i < data.length; i++) {
+            this.meteors[i].transform.position = new Vector2(data[i].x, data[i].y);
+            this.meteors[i].rotation = data[i].rotation;
+        }
+    }
 
 	requestJoin(data)
 	{
 		if(PlatformHelper.isServer())
 		{
+            Object.keys(this.players).forEach(key => {
+                let player = this.players[key];
+
+                this.context.emit('add-player', {
+                    id: player.id,
+                    name: player.name,
+                    spriteId: player.spriteId,
+                    x: player.x,
+                    y: player.y,
+                    r: 0
+                }, data.sender);
+            });
+
+
 			this.addPlayer({ id: this.index++, name: data.name, spriteId: 1, x: 1280 / 2, y: 720 / 2, r: 0 });
 
-			// for(player of this.players)
-			// {
-			// 	this.context.emit('add-player', {
-			// 		id: player.id,
-			// 		name: player.name,
-			// 		spriteId: player.spriteId,
-			// 		x: player.physics.body.position[0],
-			// 		y: player.physics.body.position[1],
-			// 		r: 0
-			// 	}, data.sender);
-			// }
 		}
 	}
 
@@ -112,11 +105,12 @@ export default class NetworkScene extends Scene
 	{
 		this.players[data.id] = new Ship(this, data.id, data.name, data.spriteId, owner);
 
-
+        if(PlatformHelper.isServer()) {
+            this.players[data.id].x = 500;
+            this.players[data.id].y = 500;
+        }
 
 		if(PlatformHelper.isServer()) this.context.emit('add-player', data);
-
-
 
 		if(PlatformHelper.isClient())
 		{
@@ -130,7 +124,7 @@ export default class NetworkScene extends Scene
 		}
 	}
 
-	movePlayer(data)
+    movePlayer(data)
 	{
 		if(this.localPlayer && data.id == this.localPlayer.id) return;
 
@@ -141,6 +135,11 @@ export default class NetworkScene extends Scene
 
 			this.players[data.id].physics.body.angle = data.r;
 		}
+
+        if(PlatformHelper.isServer() && this.players[data.id]) {
+            this.players[data.id].transform.position.x = data.x;
+            this.players[data.id].transform.position.y = data.y;
+        }
 
 		if(PlatformHelper.isServer()) this.context.emit('move-player', data);
 	}
@@ -161,7 +160,19 @@ export default class NetworkScene extends Scene
 				});
 			}
 
+            this.cameraManager.cameras[0].targetPosition.x = this.localPlayer.transform.position.x;
+            this.cameraManager.cameras[0].targetPosition.y = this.localPlayer.transform.position.y;
+
 			this.updateTick++;
 		}
+
+        if(PlatformHelper.isServer()) {
+            this.context.emit('move-meteors', this.meteors.map(meteor => ({
+                    x: meteor.transform.position.x,
+                    y: meteor.transform.position.y,
+                    r: meteor.transform.rotation
+                })
+            ));
+        }
 	}
 }

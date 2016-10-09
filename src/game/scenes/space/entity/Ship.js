@@ -18,6 +18,7 @@ export default class Ship extends GameObject
 		this.id = id;
 		this.owner = owner;
 		this.spriteId = spriteId;
+        this.name = name;
 
 		if(PlatformHelper.isClient())
 		{
@@ -37,13 +38,12 @@ export default class Ship extends GameObject
 			this.nameplate.anchor.y = -1;
 
 			this.dp.displayObject.addChild(this.nameplate);
-
-
-			this.addComponent(this.physics = new PhysicsComponent({ mass: 1 }, new P2.Circle({ radius: 30 })));
-
-			this.physics.body.position[0] = 500;
-			this.physics.body.position[1] = 300;
 		}
+
+        this.addComponent(this.physics = new PhysicsComponent({ mass: 1 }, new P2.Circle({ radius: 30 })));
+
+        this.physics.body.position[0] = 500;
+        this.physics.body.position[1] = 300;
 	}
 
 	update(dt)
@@ -52,7 +52,7 @@ export default class Ship extends GameObject
 		{
 			this.nameplate.rotation = -this.physics.body.angle;
 
-			var speed = Input.getKey(Key.SHIFT) ? 30 : 10;
+			var speed = Input.getKey(Key.SHIFT) ? 60 : 10;
 
 			if(Input.getKey(Key.W)) this.physics.body.applyForceLocal([0, speed]);
 			if(Input.getKey(Key.S)) this.physics.body.applyForceLocal([0, -10]);
@@ -81,18 +81,21 @@ export default class Ship extends GameObject
 			this.fireDown = Input.getKeyDown(Key.SPACE);
 
 		}
+
+        if(PlatformHelper.isServer()) {
+            this.physics.body.position[0] = this.transform.position.x;
+            this.physics.body.position[1] = this.transform.position.y;
+        }
 	}
 
 	shoot(emit)
 	{
-		if(PlatformHelper.isClient())
-		{
+
 			var pos = [0, 0];
 			this.physics.body.toWorldFrame(pos, [0, 50]);
 
 			new Laser(this.parent, pos[0], pos[1], this.physics.body.angle);
 
-			if(emit) this.context.emit("fire", { id: this.id });
-		}
+			if(emit && PlatformHelper.isClient()) this.context.emit("fire", { id: this.id, x: pos[0], y: pos[1], r: this.physics.body.angle  });
 	}
 }

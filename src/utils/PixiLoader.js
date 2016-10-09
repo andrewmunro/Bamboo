@@ -4,14 +4,8 @@ if(platformHelper.isClient()) {
     module.exports = require('../../node_modules/pixi.js');
 } else {
     global.performance = { now: process.hrtime };
-    global.requestAnimationFrame = (callback, element) => {
-        let time = process.hrtime()[1];
-        let nextCall = Math.max(0, 16 - (time - global.lastTime || 0));
-        let id = setTimeout(() => callback(time + nextCall), nextCall);
-        global.lastTime = time + nextCall;
 
-        return id;
-    };
+    global.requestAnimationFrame = require('raf');
 
     let pixi = {
         ticker: require('../../node_modules/pixi.js/src/core/ticker'),

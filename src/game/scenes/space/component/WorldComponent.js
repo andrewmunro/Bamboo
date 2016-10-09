@@ -1,5 +1,7 @@
 import Component from 'game/bamboo/component/Component';
 import P2 from 'p2';
+import {isType} from 'game/bamboo/helpers/TypeHelpers'
+import Laser from 'game/scenes/space/entity/Laser';
 
 export default class WorldComponent extends Component
 {
@@ -7,13 +9,19 @@ export default class WorldComponent extends Component
 	{
 		super();
 
-		console.log(P2);
-
 		this.world = new P2.World({
 			gravity: [ 0, 0 ]
 		});
 
-		console.log(this.world);
+        this.world.on("beginContact", event => {
+            if(event.bodyA.gameObject && isType(event.bodyA.gameObject, Laser)) {
+                event.bodyA.gameObject.destroy();
+            }
+
+            if(event.bodyB.gameObject && isType(event.bodyB.gameObject, Laser)) {
+                event.bodyB.gameObject.destroy();
+            }
+        });
 	}
 
 	update(dt)

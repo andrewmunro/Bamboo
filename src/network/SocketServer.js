@@ -23,6 +23,8 @@ class SocketServer {
     }
 
     handleEvent(socket, {event, payload}) {
+        //console.log(`Recieved ${event} with payload: ${JSON.stringify(payload)}`);
+
         payload.sender = socket.id;
 
         this.context.dispatch(event, payload);
@@ -41,7 +43,7 @@ class SocketServer {
     }
 
     emit(event, payload, socketId) {
-        console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
+        //console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
 
         if(socketId) {
             let socket = this.server.sockets.connected[socketId];

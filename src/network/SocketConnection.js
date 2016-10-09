@@ -1,9 +1,13 @@
 class SocketConnection {
     constructor() {
-        this.socket = require('socket.io-client')('http://localhost:3000');
+        this.socket = require('socket.io-client')(`${window.location.origin}`);
+
+        this.messageQueue = [];
 
         this.socket.on('connect', () => {
             console.log('connected!');
+            this.messageQueue.forEach(message => this.emit(...message));
+            this.messageQueue = [];
         });
 
         this.handlers = {};
@@ -13,6 +17,11 @@ class SocketConnection {
         this.context = actionContext;
 
         this.socket.on('event', this.handleEvent.bind(this));
+        this.socket.on('disconnected', this.handleDisconnect)
+    }
+
+    handleDisconnect() {
+        console.log(`Disconnected!`);
     }
 
     handleEvent({event, payload}) {
@@ -32,11 +41,15 @@ class SocketConnection {
     }
 
     emit(event, payload) {
-        // console.log(`Emitting ${event} with payload: ${payload}`);
-        this.socket.emit('event', {
-            event,
-            payload
-        });
+        if(this.socket.disconnected) {
+            this.messageQueue.push(arguments);
+        } else {
+            // console.log(`Emitting ${event} with payload: ${payload}`);
+            this.socket.emit('event', {
+                event,
+                payload
+            });
+        }
     }
 }
 
