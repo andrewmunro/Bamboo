@@ -148,12 +148,30 @@ export default class NetworkScene extends Scene
 		if(PlatformHelper.isServer()) this.context.emit('move-player', data);
 	}
 
+	map_range(value, low1, high1, low2, high2) {
+    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+}
+
+lerp(value1, value2, amount) {
+        amount = amount < 0 ? 0 : amount;
+        amount = amount > 1 ? 1 : amount;
+        return value1 + (value2 - value1) * amount;
+    }
+
 	update()
 	{
-		this.cameraManager.cameras[0].targetZoom = 0.5;
+
+
+
+
 
 		if(PlatformHelper.isClient() && this.localPlayer)
 		{
+
+			var velocity = Math.sqrt(Math.pow(this.localPlayer.physics.body.velocity[0], 2) + Math.pow(this.localPlayer.physics.body.velocity[1], 2));
+
+			this.cameraManager.cameras[0].targetZoom = this.lerp(this.cameraManager.cameras[0].targetZoom, this.map_range(velocity, 0, 40, 0.6, 0.5), 0.9)
+
 			this.foreground.position.x = this.cameraManager.cameras[0].targetPosition.x * 0.1;
 		            this.foreground.position.y = this.cameraManager.cameras[0].targetPosition.y * 0.1;
 
