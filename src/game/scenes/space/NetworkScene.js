@@ -6,6 +6,7 @@ import Pixi, {Point} from 'pixi';
 import PlayerStore from 'stores/PlayerStore';
 
 import Ship from 'game/scenes/space/entity/Ship';
+import Planets from 'game/scenes/space/entity/Planets';
 import Meteor from 'game/scenes/space/entity/Meteor';
 import WorldComponent from 'game/scenes/space/component/WorldComponent';
 import PlatformHelper from 'helpers/PlatformHelper';
@@ -37,6 +38,9 @@ export default class NetworkScene extends Scene
 		{
             this.addComponent(this.background = Sprite.fromImage('/sprites/bg_back1.png', true));
             this.addComponent(this.foreground = Sprite.fromImage('/sprites/bg_front.png', true));
+
+            new Planets(this);
+
             this.context.handle('move-meteors', this.moveMeteors.bind(this));
         }
 
