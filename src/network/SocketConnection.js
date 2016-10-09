@@ -17,11 +17,12 @@ class SocketConnection {
         this.context = actionContext;
 
         this.socket.on('event', this.handleEvent.bind(this));
-        this.socket.on('disconnected', this.handleDisconnect)
+        this.socket.on('disconnect', this.handleDisconnect)
     }
 
     handleDisconnect() {
         console.log(`Disconnected!`);
+        setTimeout(() => window.location.reload(), 3000);
     }
 
     handleEvent({event, payload}) {

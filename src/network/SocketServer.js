@@ -20,6 +20,12 @@ class SocketServer {
 
     handleDisconnect(socket) {
         console.log(`[${socket.id}] Disconnected`);
+        this.handleEvent(socket, {
+            event: 'disconnect',
+            payload: {
+                id: socket.id
+            }
+        })
     }
 
     handleEvent(socket, {event, payload}) {

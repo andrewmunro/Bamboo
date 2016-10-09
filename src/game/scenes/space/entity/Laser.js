@@ -33,15 +33,6 @@ export default class Laser extends GameObject
         }, 5000);
 	}
 
-    destroy() {
-        this.physics.world.removeBody(this.physics.body);
-        this.removeComponent(this.image);
-
-        this.transform.scale = new Vector2();
-
-        //this.enabled = false;
-    }
-
 	update(dt)
 	{
         this.physics.body.applyForceLocal([0, 1000]);

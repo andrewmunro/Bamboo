@@ -19,6 +19,7 @@ if(platformHelper.isClient()) {
     pixi.Container = function(){
         return {
             addChild:function(){},
+            removeChild:function(){},
             render:function(){}
         }
     };

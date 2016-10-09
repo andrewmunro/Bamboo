@@ -8,6 +8,8 @@ export default class Component {
 
     }
 
+    destroy() {}
+
     preUpdate(dt) { }
     update(dt) { }
     postUpdate(dt) { }

@@ -20,6 +20,12 @@ export default class PhysicsComponent extends Component
 		this.world.addBody(this.body);
 	}
 
+    destroy() {
+        if(this.world) {
+            this.world.removeBody(this.body);
+        }
+    }
+
 	update(dt)
 	{
         if(this.owner) {
@@ -37,6 +43,6 @@ export default class PhysicsComponent extends Component
 
 	get world()
 	{
-		return this.gameObject.scene.getComponent(WorldComponent).world;
+		return this.gameObject.scene && this.gameObject.scene.getComponent(WorldComponent) ? this.gameObject.scene.getComponent(WorldComponent).world : null;
 	}
 }

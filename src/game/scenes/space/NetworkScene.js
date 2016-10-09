@@ -17,7 +17,6 @@ export default class NetworkScene extends Scene
 		super('NetworkScene', fullscreen());
 
 		this.players = {};
-		this.index = 0;
 		this.meteors = [];
 
 		this.defaultNames = [
@@ -53,6 +52,12 @@ export default class NetworkScene extends Scene
 		this.context.handle('add-player', this.addPlayer.bind(this));
 		this.context.handle('move-player', this.movePlayer.bind(this));
 		this.context.handle('fire', this.fire.bind(this));
+		this.context.handle('remove-player', this.removePlayer.bind(this));
+
+        this.context.handle('disconnect', (data) => {
+            this.context.emit('remove-player', data);
+            this.removePlayer(data);
+        });
 
 		if(PlatformHelper.isClient()) this.context.emit('request-join', { name: this.name });
 		if(PlatformHelper.isServer()) this.context.handle('request-join', this.requestJoin.bind(this));
@@ -99,7 +104,7 @@ export default class NetworkScene extends Scene
             	var x = -500 + (Math.random() * 1000);
             	var y = -500 + (Math.random() * 1000);
 
-			this.addPlayer({ id: this.index++, name: data.name, spriteId: 1, x: x, y: y, r: 0 });
+			this.addPlayer({ id: data.sender, name: data.name, spriteId: 1, x: x, y: y, r: 0 });
 
 		}
 	}
@@ -107,13 +112,6 @@ export default class NetworkScene extends Scene
 	addPlayer(data, owner = false)
 	{
 		this.players[data.id] = new Ship(this, data.id, data.name, data.spriteId, owner);
-
-        if(PlatformHelper.isServer()) {
-            this.players[data.id].x = 500;
-            this.players[data.id].y = 500;
-        }
-
-		if(PlatformHelper.isServer()) this.context.emit('add-player', data);
 
 		if(PlatformHelper.isClient())
 		{
@@ -124,8 +122,20 @@ export default class NetworkScene extends Scene
 				this.localPlayer = this.players[data.id];
 				this.localPlayer.owner = true;
 			}
-		}
+		} else {
+            this.context.emit('add-player', data);
+        }
 	}
+
+    removePlayer(data) {
+        let ship = this.players[data.id];
+
+        if(ship) {
+            console.log("DESTROYING " + data.id);
+            delete this.players[data.id];
+            ship.destroy();
+        }
+    }
 
     movePlayer(data)
 	{

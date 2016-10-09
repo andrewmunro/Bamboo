@@ -23,6 +23,20 @@ export default class GameObject {
         Bamboo.instance.postUpdate.add(this.onPostUpdate, this);
     }
 
+    destroy() {
+        this.components.reverse().forEach(c => {
+            c.destroy();
+        });
+
+        if(this.parent && this.getComponent(DisplayObject) && this.parent.getComponent(DisplayObject)) {
+            this.parent.getComponent(DisplayObject).removeChild(this.getComponent(DisplayObject));
+        }
+
+        this.transform.parent = null;
+        this.enabled = false;
+        this.destroyed = true;
+    }
+
     addComponent(component) {
         if(component.constructor && component.constructor === Array) {
             _.forEach(component, this.addComponent);

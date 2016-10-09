@@ -26,11 +26,11 @@ export default class TitleScene extends Scene {
         this.title.position = new Vector2(1280 / 2, 720 / 2);
 
         this.ship = new Ship(this);
-        this.ship.transform.position = new Vector2(2000, 100);
+        this.ship.transform.position = new Vector2(1600, 100);
 
         let xTween = new Tween(this.ship.transform.position)
-            .to({x: -100}, 7000)
-            .easing( TWEEN.Easing.Cubic.InOut )
+            .to({x: -300}, 7000)
+            .easing( TWEEN.Easing.Quadratic.InOut )
             .repeat( Infinity )
             .start();
     }
