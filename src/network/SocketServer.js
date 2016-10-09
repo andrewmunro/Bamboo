@@ -23,8 +23,7 @@ class SocketServer {
     }
 
     handleEvent(socket, {event, payload}) {
-
-        payload.sender = socket;
+        payload.sender = socket.id;
 
         this.context.dispatch(event, payload);
 
@@ -39,20 +38,25 @@ class SocketServer {
         }
 
         this.handlers[event].push(callback);
-
     }
 
-    emit(event, payload, socket) {
-        //console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
+    emit(event, payload, socketId) {
+        console.log(`Emitting ${event} with payload: ${JSON.stringify(payload)}`);
 
-        //let send = socket ? socket.emit.bind(this) : this.server.emit.bind(this);
+        if(socketId) {
+            let socket = this.server.sockets.connected[socketId];
 
-        //console.log('send' + send);
-
-        this.server.emit('event', {
-            event,
-            payload
-        });
+            if(socket) {
+                socket.emit('event', { event, payload });
+            } else {
+                throw new Error(`Couldn't find socket ${socketId}`);
+            }
+        } else {
+            this.server.emit('event', {
+                event,
+                payload
+            });
+        }
     }
 }
 
