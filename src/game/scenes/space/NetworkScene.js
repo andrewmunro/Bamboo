@@ -56,9 +56,9 @@ export default class NetworkScene extends Scene
 
         this.addComponent(new WorldComponent());
 
-        for (let i = 5; i >= 0; i--) {
-            let x = (Math.random() * 2000) - 1000;
-            let y = (Math.random() * 2000) - 1000;
+        for (let i = 30; i >= 0; i--) {
+            let x = (Math.random() * 4000) - 2000;
+            let y = (Math.random() * 4000) - 2000;
 
             this.meteors.push(new Meteor(this, x, y));
         }
