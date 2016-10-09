@@ -18,6 +18,8 @@ export default class PhysicsComponent extends Component
 	start()
 	{
 		this.world.addBody(this.body);
+
+        this.body.gameObject = this.gameObject;
 	}
 
     destroy() {

@@ -1,6 +1,7 @@
 import Pixi, {Container} from 'pixi';
 
 import SceneManager from './scene/SceneManager';
+import SoundManager from './sound/SoundManager';
 import input from './input/Input';
 import Vector2 from './math/Vector2';
 
@@ -21,6 +22,7 @@ export default class Bamboo {
         this.renderer = Pixi.autoDetectRenderer(this.width, this.height, {view: document.getElementById('gameCanvas'), transparent: true});
         this.stage = new Container();
         this.sceneManager = new SceneManager();
+        this.soundManager = new SoundManager();
 
         this.stage.addChild(this.sceneManager.displayObject);
 

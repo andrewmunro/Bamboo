@@ -31,6 +31,12 @@ export default class NetworkScene extends Scene
 			"JonnyShoots",
 			"CptPoopaScoop"
 		];
+
+        this.soundManager = Bamboo.instance.soundManager;
+
+        this.soundManager.addSound('/sounds/engine.mp3');
+        this.soundManager.addSound('/sounds/explosion.mp3');
+        this.soundManager.addSound('/sounds/laser.mp3');
 	}
 
 	start()
@@ -81,11 +87,10 @@ export default class NetworkScene extends Scene
 		{
 			this.context.emit('fire', { id: data.id });
 		}
-			if(this.localPlayer && data.id == this.localPlayer.id) return;
+        if(this.localPlayer && data.id == this.localPlayer.id) return;
 
-			if(this.players[data.id]) this.players[data.id].shoot(false);
-		//}
-	}
+        if(this.players[data.id]) this.players[data.id].shoot(false);
+    }
 
     moveMeteors(data) {
         for(let i = 0; i < data.length; i++) {
@@ -169,10 +174,10 @@ export default class NetworkScene extends Scene
 	}
 
 	map_range(value, low1, high1, low2, high2) {
-    return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
-}
+        return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+    }
 
-lerp(value1, value2, amount) {
+    lerp(value1, value2, amount) {
         amount = amount < 0 ? 0 : amount;
         amount = amount > 1 ? 1 : amount;
         return value1 + (value2 - value1) * amount;

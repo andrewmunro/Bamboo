@@ -21,17 +21,19 @@ export default class Game extends Bamboo {
 
     @clientOnly
     startMusic() {
-        let soundManager = require('soundmanager2').soundManager;
+        //let soundManager = require('soundmanager2').soundManager;
+        //
+        //soundManager.setup({
+        //    url: 'sounds',
+        //    onready: () => {
+        //        let music = soundManager.createSound({
+        //            url: '/sounds/constellations.mp3'
+        //        });
+        //
+        //        music.play();
+        //    }
+        //});
 
-        soundManager.setup({
-            url: 'sounds',
-            onready: () => {
-                let music = soundManager.createSound({
-                    url: '/sounds/constellations.mp3'
-                });
-
-                music.play();
-            }
-        });
+        this.soundManager.addSound('/sounds/constellations.mp3', true);
     }
 }

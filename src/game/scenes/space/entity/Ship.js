@@ -14,8 +14,9 @@ export default class Ship extends GameObject
 	constructor(parent, id, name, spriteId, owner = false)
 	{
 		super("Ship", parent);
+        this.soundManager = Bamboo.instance.soundManager;
 
-		this.id = id;
+        this.id = id;
 		this.owner = owner;
 		this.spriteId = spriteId;
         	this.name = name;
@@ -95,7 +96,7 @@ export default class Ship extends GameObject
 
 	shoot(emit)
 	{
-
+            this.soundManager.playSound('/sounds/laser.mp3');
 			var pos = [0, 0];
 			this.physics.body.toWorldFrame(pos, [0, 50]);
 
