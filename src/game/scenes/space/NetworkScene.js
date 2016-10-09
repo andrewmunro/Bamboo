@@ -96,8 +96,10 @@ export default class NetworkScene extends Scene
                 }, data.sender);
             });
 
+            	var x = -500 + (Math.random() * 1000);
+            	var y = -500 + (Math.random() * 1000);
 
-			this.addPlayer({ id: this.index++, name: data.name, spriteId: 1, x: 1280 / 2, y: 720 / 2, r: 0 });
+			this.addPlayer({ id: this.index++, name: data.name, spriteId: 1, x: x, y: y, r: 0 });
 
 		}
 	}
@@ -148,6 +150,8 @@ export default class NetworkScene extends Scene
 
 	update()
 	{
+		this.cameraManager.cameras[0].targetZoom = 0.5;
+
 		if(PlatformHelper.isClient() && this.localPlayer)
 		{
 			this.foreground.position.x = this.cameraManager.cameras[0].targetPosition.x * 0.1;

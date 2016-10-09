@@ -18,7 +18,7 @@ export default class Ship extends GameObject
 		this.id = id;
 		this.owner = owner;
 		this.spriteId = spriteId;
-        this.name = name;
+        	this.name = name;
 
 		if(PlatformHelper.isClient())
 		{
@@ -48,39 +48,43 @@ export default class Ship extends GameObject
 
 	update(dt)
 	{
-		if(PlatformHelper.isClient() && this.owner)
+		if(PlatformHelper.isClient())
 		{
 			this.nameplate.rotation = -this.physics.body.angle;
 
-			var speed = Input.getKey(Key.SHIFT) ? 60 : 10;
-
-			if(Input.getKey(Key.W)) this.physics.body.applyForceLocal([0, speed]);
-			if(Input.getKey(Key.S)) this.physics.body.applyForceLocal([0, -10]);
-
-			if(Input.getKey(Key.D))
+			if(this.owner)
 			{
-				this.physics.body.angularVelocity = 0.3;
-			}
-			else if(Input.getKey(Key.A))
-			{
-				this.physics.body.angularVelocity = -0.3;
-			}
-			else
-			{
-				this.physics.body.angularVelocity = 0;
-			}
+				var speed = Input.getKey(Key.SHIFT) ? 60 : 10;
 
-			if(!this.fireDown && Input.getKeyDown(Key.SPACE))
-			{
-				this.shoot(true);
+				if(Input.getKey(Key.W)) this.physics.body.applyForceLocal([0, speed]);
+				if(Input.getKey(Key.S)) this.physics.body.applyForceLocal([0, -10]);
+
+				if(Input.getKey(Key.D))
+				{
+					this.physics.body.angularVelocity = 0.3;
+				}
+				else if(Input.getKey(Key.A))
+				{
+					this.physics.body.angularVelocity = -0.3;
+				}
+				else
+				{
+					this.physics.body.angularVelocity = 0;
+				}
+
+				if(!this.fireDown && Input.getKeyDown(Key.SPACE))
+				{
+					this.shoot(true);
+				}
+
+				this.fire.scale.x = this.fire.scale.y = Input.getKey(Key.W) ? 1 : 0;
+				this.jet.scale.x = this.jet.scale.y = Input.getKey(Key.SHIFT) ? 1 : 0;
+
+				this.fireDown = Input.getKeyDown(Key.SPACE);
 			}
-
-			this.fire.scale.x = this.fire.scale.y = Input.getKey(Key.W) ? 1 : 0;
-			this.jet.scale.x = this.jet.scale.y = Input.getKey(Key.SHIFT) ? 1 : 0;
-
-			this.fireDown = Input.getKeyDown(Key.SPACE);
 
 		}
+
 
         if(PlatformHelper.isServer()) {
             this.physics.body.position[0] = this.transform.position.x;
