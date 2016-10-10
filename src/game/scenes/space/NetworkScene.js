@@ -67,11 +67,15 @@ export default class NetworkScene extends Scene
 
 		this.context.handle('add-player', this.addPlayer.bind(this));
 		this.context.handle('move-player', this.movePlayer.bind(this));
+		this.context.handle('move-players', this.movePlayers.bind(this));
 		this.context.handle('fire', this.fire.bind(this));
 		this.context.handle('remove-player', this.removePlayer.bind(this));
 
         this.context.handle('disconnect', (data) => {
-            this.context.emit('remove-player', data);
+            if(PlatformHelper.isServer()) {
+                this.context.emit('remove-player', data);
+            }
+
             this.removePlayer(data);
         });
 
@@ -152,25 +156,27 @@ export default class NetworkScene extends Scene
         }
     }
 
-    movePlayer(data)
-	{
-		if(this.localPlayer && data.id == this.localPlayer.id) return;
-
-		if(PlatformHelper.isClient() && this.players[data.id])
-		{
-			this.players[data.id].physics.body.position[0] = data.x;
-			this.players[data.id].physics.body.position[1] = data.y;
-
-			this.players[data.id].physics.body.angle = data.r;
-		}
-
+    movePlayer(data) {
         if(PlatformHelper.isServer() && this.players[data.id]) {
             this.players[data.id].transform.position.x = data.x;
             this.players[data.id].transform.position.y = data.y;
             this.players[data.id].transform.rotation = data.r;
         }
+    }
 
-		if(PlatformHelper.isServer()) this.context.emit('move-player', data);
+    movePlayers(data)
+	{
+        if(PlatformHelper.isClient()) {
+            data.forEach(player => {
+                if(this.localPlayer && player.id === this.localPlayer.id) return;
+
+                if(this.players[player.id]) {
+                    this.players[player.id].physics.body.position[0] = player.x;
+                    this.players[player.id].physics.body.position[1] = player.y;
+                    this.players[player.id].physics.body.angle = player.r;
+                }
+            });
+        }
 	}
 
 	map_range(value, low1, high1, low2, high2) {
@@ -185,17 +191,11 @@ export default class NetworkScene extends Scene
 
 	update()
 	{
-
-
-
-
-
 		if(PlatformHelper.isClient() && this.localPlayer)
 		{
-
 			var velocity = Math.sqrt(Math.pow(this.localPlayer.physics.body.velocity[0], 2) + Math.pow(this.localPlayer.physics.body.velocity[1], 2));
 
-			this.cameraManager.cameras[0].targetZoom = this.lerp(this.cameraManager.cameras[0].targetZoom, this.map_range(velocity, 0, 40, 0.6, 0.5), 0.9)
+			this.cameraManager.cameras[0].targetZoom = this.lerp(this.cameraManager.cameras[0].targetZoom, this.map_range(velocity, 0, 40, 0.6, 0.5), 0.9);
 
 			this.foreground.position.x = this.cameraManager.cameras[0].targetPosition.x * 0.1;
 		            this.foreground.position.y = this.cameraManager.cameras[0].targetPosition.y * 0.1;
@@ -218,8 +218,6 @@ export default class NetworkScene extends Scene
 			this.updateTick++;
 		}
 
-
-
         if(PlatformHelper.isServer()) {
             this.context.emit('move-meteors', this.meteors.map(meteor => ({
                     x: meteor.transform.position.x,
@@ -227,6 +225,13 @@ export default class NetworkScene extends Scene
                     r: meteor.transform.rotation
                 })
             ));
+
+            this.context.emit('move-players', Object.keys(this.players).map(playerId => ({
+                id: playerId,
+                x: this.players[playerId].transform.position.x,
+                y: this.players[playerId].transform.position.y,
+                r: this.players[playerId].transform.rotation
+            })));
         }
 	}
 }
