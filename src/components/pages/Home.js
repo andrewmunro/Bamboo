@@ -7,7 +7,7 @@ import SceneStore from 'stores/SceneStore';
 
 @connectToStores([SceneStore], (context, props) => ({
     currentScene: context.getStore(SceneStore).currentScene
-}));
+}))
 export default class Home extends React.Component {
     render() {
         let sceneViews = {

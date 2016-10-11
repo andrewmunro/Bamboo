@@ -1,3 +1,5 @@
+import msgpack from 'msgpack-lite';
+
 class SocketConnection {
     constructor() {
         this.socket = require('socket.io-client')(`${window.location.origin}`);
@@ -25,7 +27,9 @@ class SocketConnection {
         setTimeout(() => window.location.reload(), 3000);
     }
 
-    handleEvent({event, payload}) {
+    handleEvent(data) {
+        let {event, payload} = msgpack.decode(new Uint8Array(data));
+
         this.context.dispatch(event, payload);
 
         if(this.handlers[event]) {
@@ -46,10 +50,10 @@ class SocketConnection {
             this.messageQueue.push(arguments);
         } else {
             // console.log(`Emitting ${event} with payload: ${payload}`);
-            this.socket.emit('event', {
+            this.socket.emit('event', msgpack.encode({
                 event,
                 payload
-            });
+            }));
         }
     }
 }

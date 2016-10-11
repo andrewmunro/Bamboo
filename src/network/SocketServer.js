@@ -1,3 +1,5 @@
+import msgpack from 'msgpack-lite';
+
 class SocketServer {
     constructor() {
         this.server = require('socket.io')(require('network/WebServer'));
@@ -28,15 +30,17 @@ class SocketServer {
         })
     }
 
-    handleEvent(socket, {event, payload}) {
+    handleEvent(socket, {data}) {
         //console.log(`Recieved ${event} with payload: ${JSON.stringify(payload)}`);
+        if(data && data.length > 0) {
+            let {event, payload} = msgpack.decode(data);
+            payload.sender = socket.id;
 
-        payload.sender = socket.id;
+            this.context.dispatch(event, payload);
 
-        this.context.dispatch(event, payload);
-
-        if(this.handlers[event]) {
-            this.handlers[event].forEach(callback => callback(payload));
+            if(this.handlers[event]) {
+                this.handlers[event].forEach(callback => callback(payload));
+            }
         }
     }
 
@@ -55,15 +59,15 @@ class SocketServer {
             let socket = this.server.sockets.connected[socketId];
 
             if(socket) {
-                socket.emit('event', { event, payload });
+                socket.emit('event',  msgpack.encode({ event, payload }));
             } else {
                 throw new Error(`Couldn't find socket ${socketId}`);
             }
         } else {
-            this.server.emit('event', {
+            this.server.emit('event', msgpack.encode({
                 event,
                 payload
-            });
+            }));
         }
     }
 }
