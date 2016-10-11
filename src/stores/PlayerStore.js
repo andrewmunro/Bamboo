@@ -3,12 +3,12 @@ import BaseStore from 'fluxible/addons/BaseStore';
 import {Vector2} from 'game/bamboo/Bamboo';
 
 export default class PlayerStore extends BaseStore {
-    static storeName = 'PlayerStore'
+    static storeName = 'PlayerStore';
 
     static handlers = {
         'UPDATE_TRANSFORM': 'updateTransform',
         'SET_PLAYER_NAME': 'updatePlayerName'
-    }
+    };
 
     constructor(dispatcher) {
         super(dispatcher);

@@ -13,8 +13,7 @@ export function clientOnly(target, key, descriptor) {
             return platformHelper.isClient() ? fn : function() {};
         }
     };
-};
-
+}
 export function serverOnly(target, key, descriptor) {
     let fn = descriptor.value;
 
@@ -28,4 +27,4 @@ export function serverOnly(target, key, descriptor) {
             return platformHelper.isServer() ? fn : function() {};
         }
     };
-};
+}

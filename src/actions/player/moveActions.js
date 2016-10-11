@@ -6,8 +6,7 @@ export function moveLeft(actionContext, payload, done) {
         }
     });
     done();
-};
-
+}
 export function moveRight(actionContext, payload, done) {
     actionContext.dispatch('UPDATE_TRANSFORM', {
         position: {
@@ -16,8 +15,7 @@ export function moveRight(actionContext, payload, done) {
         }
     });
     done();
-};
-
+}
 export function moveUp(actionContext, payload, done) {
     actionContext.dispatch('UPDATE_TRANSFORM', {
         position: {
@@ -26,8 +24,7 @@ export function moveUp(actionContext, payload, done) {
         }
     });
     done();
-};
-
+}
 export function moveDown(actionContext, payload, done) {
     actionContext.dispatch('UPDATE_TRANSFORM', {
         position: {
@@ -36,4 +33,4 @@ export function moveDown(actionContext, payload, done) {
         }
     });
     done();
-};
+}

@@ -5,8 +5,8 @@ import DisplayObject from '../../component/DisplayObject';
 import Vector2 from '../../math/Vector2';
 
 export default class Camera extends DisplayObject {
-    static componentName = 'Camera'
-    static unique = false
+    static componentName = 'Camera';
+    static unique = false;
 
 	constructor(id, x, y, width, height, renderWidth, renderHeight) {
 		super(id || 'Camera');

@@ -60,20 +60,20 @@ export default class Bamboo {
 }
 
 // Components
-export Component from './component/Component';
-export Transform from './component/Transform';
-export Sprite from './component/Sprite';
-export DisplayObject from './component/DisplayObject';
+export Component; from; './component/Component';
+export Transform; from; './component/Transform';
+export Sprite; from; './component/Sprite';
+export DisplayObject; from; './component/DisplayObject';
 
 // Entities
-export GameObject from './entity/GameObject';
+export GameObject; from; './entity/GameObject';
 
 // Scene
-export Scene from './scene/Scene';
-export Camera from './scene/camera/Camera';
+export Scene; from; './scene/Scene';
+export Camera; from; './scene/camera/Camera';
 
 // Math
-export Vector2 from './math/Vector2';
+export Vector2; from; './math/Vector2';
 
 // Helpers
 export * from './helpers/TypeHelpers';

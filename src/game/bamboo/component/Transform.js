@@ -3,7 +3,7 @@ import Vector2 from '../math/Vector2';
 import Component from './Component';
 
 export default class Transform extends Component {
-    static componentName = 'Transform'
+    static componentName = 'Transform';
 
     constructor(parent) {
         super();

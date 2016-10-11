@@ -4,7 +4,7 @@ import playGameAction from 'actions/playGameAction';
 export default class TitleScene extends React.Component {
     static contextTypes = {
         executeAction: React.PropTypes.func,
-    }
+    };
 
     onKeyPress(e) {
         if(e.key === 'Enter') {

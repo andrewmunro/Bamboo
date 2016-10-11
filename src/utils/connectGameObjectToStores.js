@@ -16,7 +16,7 @@ function connectGameObjectToStores(GameObject, stores, getStateFromStores) {
             let context = Bamboo.instance.context.getComponentContext();
             handlers[store.storeName](context.getStore(store), context);
         }
-    }
+    };
 
     class GameObjectStoreConnector extends GameObject {
         constructor() {

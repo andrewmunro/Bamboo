@@ -3,8 +3,8 @@ import {Container} from 'pixi';
 import Component from './Component';
 
 export default class DisplayObject extends Component {
-    static componentName = 'DisplayObject'
-    static unique = true
+    static componentName = 'DisplayObject';
+    static unique = true;
 
     constructor(id = 'displayObject') {
         super();

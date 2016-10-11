@@ -3,7 +3,7 @@ import Pixi, {Point} from 'pixi';
 import Component from './Component';
 
 export default class Sprite extends Component {
-    static componentName = 'Sprite'
+    static componentName = 'Sprite';
 
     constructor(texture, tiling = false) {
         super();

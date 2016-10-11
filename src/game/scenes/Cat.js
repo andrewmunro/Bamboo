@@ -18,7 +18,7 @@ import MathHelper from 'helpers/MathHelper';
             cat.updateTransform(playerStore.transform);
         }
     })
-)
+);
 export default class Cat extends GameObject {
     constructor(parent) {
         super('Cat', parent);

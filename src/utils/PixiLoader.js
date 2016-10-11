@@ -26,7 +26,7 @@ if(platformHelper.isClient()) {
 
     pixi.Texture = {
         fromImage: function(){}
-    }
+    };
 
     pixi.loaders = {
         Loader: function() {
@@ -37,7 +37,7 @@ if(platformHelper.isClient()) {
                 loaded: true
             };
         }
-    }
+    };
 
     pixi.autoDetectRenderer = function(width, height) {
         return {
@@ -49,7 +49,7 @@ if(platformHelper.isClient()) {
 
     global.document = {
         getElementById:function(){}
-    }
+    };
 
     module.exports = pixi;
 }
