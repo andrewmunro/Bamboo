@@ -20,14 +20,12 @@ class SocketServer {
         socket.on('disconnect', (event) => this.handleDisconnect(socket));
     }
 
-    handleDisconnect(socket) {
-        console.log(`[${socket.id}] Disconnected`);
-        this.handleEvent(socket, {
-            event: 'disconnect',
-            payload: {
-                id: socket.id
-            }
-        })
+    handleDisconnect({id}) {
+        console.log(`[${id}] Disconnected`);
+
+        if(this.handlers['disconnect']) {
+            this.handlers['disconnect'].forEach(callback => callback({id}));
+        }
     }
 
     handleEvent(socket, {data}) {
